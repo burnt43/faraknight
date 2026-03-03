@@ -120,7 +120,7 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 
-  config.include Faraday::HelperMethods
+  config.include Faraknight::HelperMethods
 end
 
 # Extends RSpec DocumentationFormatter to hide skipped tests.

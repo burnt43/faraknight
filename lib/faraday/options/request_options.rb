@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module Faraday
+module Faraknight
   # @!parse
-  #   # RequestOptions contains the configurable properties for a Faraday request.
+  #   # RequestOptions contains the configurable properties for a Faraknight request.
   #   class RequestOptions < Options; end
   RequestOptions = Options.new(:params_encoder, :proxy, :bind,
                                :timeout, :open_timeout, :read_timeout,

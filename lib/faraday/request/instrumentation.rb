@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-module Faraday
+module Faraknight
   class Request
     # Middleware for instrumenting Requests.
-    class Instrumentation < Faraday::Middleware
+    class Instrumentation < Faraknight::Middleware
       # Options class used in Request::Instrumentation class.
-      Options = Faraday::Options.new(:name, :instrumenter) do
+      Options = Faraknight::Options.new(:name, :instrumenter) do
         remove_method :name
         # @return [String]
         def name
@@ -24,7 +24,7 @@ module Faraday
       # Measures time spent only for synchronous requests.
       #
       # @example Using ActiveSupport::Notifications to measure time spent
-      #   for Faraday requests.
+      #   for Faraknight requests.
       #   ActiveSupport::Notifications
       #     .subscribe('request.faraday') do |name, starts, ends, _, env|
       #     url = env[:url]
@@ -45,7 +45,7 @@ module Faraday
                                       .values_at(:name, :instrumenter)
       end
 
-      # @param env [Faraday::Env]
+      # @param env [Faraknight::Env]
       def call(env)
         @instrumenter.instrument(@name, env) do
           @app.call(env)
@@ -55,4 +55,4 @@ module Faraday
   end
 end
 
-Faraday::Request.register_middleware(instrumentation: Faraday::Request::Instrumentation)
+Faraknight::Request.register_middleware(instrumentation: Faraknight::Request::Instrumentation)

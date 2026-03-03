@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::Middleware do
+RSpec.describe Faraknight::Middleware do
   subject { described_class.new(app) }
   let(:app) { double }
 
@@ -43,11 +43,11 @@ RSpec.describe Faraday::Middleware do
     end
 
     it 'is called by #call' do
-      expect(app).to receive(:call).and_raise(Faraday::ConnectionFailed)
+      expect(app).to receive(:call).and_raise(Faraknight::ConnectionFailed)
       is_expected.to receive(:call).and_call_original
       is_expected.to receive(:on_error)
 
-      expect { subject.call(double) }.to raise_error(Faraday::ConnectionFailed)
+      expect { subject.call(double) }.to raise_error(Faraknight::ConnectionFailed)
     end
   end
 
@@ -74,7 +74,7 @@ RSpec.describe Faraday::Middleware do
     let(:subclass_two_options) { FaradayMiddlewareSubclasses::SubclassTwoOptions }
 
     def build_conn(resp_middleware)
-      Faraday.new do |c|
+      Faraknight.new do |c|
         c.adapter :test do |stub|
           stub.get('/success') { [200, {}, 'ok'] }
         end
@@ -87,7 +87,7 @@ RSpec.describe Faraday::Middleware do
         FaradayMiddlewareSubclasses::SubclassNoOptions.instance_variable_set(:@default_options, nil)
         FaradayMiddlewareSubclasses::SubclassOneOption.instance_variable_set(:@default_options, nil)
         FaradayMiddlewareSubclasses::SubclassTwoOptions.instance_variable_set(:@default_options, nil)
-        Faraday::Middleware.instance_variable_set(:@default_options, nil)
+        Faraknight::Middleware.instance_variable_set(:@default_options, nil)
       end
     end
 
@@ -95,7 +95,7 @@ RSpec.describe Faraday::Middleware do
       FaradayMiddlewareSubclasses::SubclassNoOptions.instance_variable_set(:@default_options, nil)
       FaradayMiddlewareSubclasses::SubclassOneOption.instance_variable_set(:@default_options, nil)
       FaradayMiddlewareSubclasses::SubclassTwoOptions.instance_variable_set(:@default_options, nil)
-      Faraday::Middleware.instance_variable_set(:@default_options, nil)
+      Faraknight::Middleware.instance_variable_set(:@default_options, nil)
     end
 
     context 'with subclass DEFAULT_OPTIONS defined' do
@@ -105,7 +105,7 @@ RSpec.describe Faraday::Middleware do
         let(:resp1) { build_conn(:one_option).get('/success') }
 
         it 'has only subclass defaults' do
-          expect(Faraday::Middleware.default_options).to eq(Faraday::Middleware::DEFAULT_OPTIONS)
+          expect(Faraknight::Middleware.default_options).to eq(Faraknight::Middleware::DEFAULT_OPTIONS)
           expect(subclass_no_options.default_options).to eq(subclass_no_options::DEFAULT_OPTIONS)
           expect(subclass_one_option.default_options).to eq(subclass_one_option::DEFAULT_OPTIONS)
           expect(subclass_two_options.default_options).to eq(subclass_two_options::DEFAULT_OPTIONS)
@@ -122,7 +122,7 @@ RSpec.describe Faraday::Middleware do
         end
 
         it 'only updates default options of target subclass' do
-          expect(Faraday::Middleware.default_options).to eq(Faraday::Middleware::DEFAULT_OPTIONS)
+          expect(Faraknight::Middleware.default_options).to eq(Faraknight::Middleware::DEFAULT_OPTIONS)
           expect(subclass_no_options.default_options).to eq(subclass_no_options::DEFAULT_OPTIONS)
           expect(subclass_one_option.default_options).to eq(subclass_one_option::DEFAULT_OPTIONS)
           expect(subclass_two_options.default_options).to eq({ some_option: false, some_other_option: false })
@@ -141,7 +141,7 @@ RSpec.describe Faraday::Middleware do
         end
 
         it 'updates subclasses and parent independent of each other' do
-          expect(Faraday::Middleware.default_options).to eq(Faraday::Middleware::DEFAULT_OPTIONS)
+          expect(Faraknight::Middleware.default_options).to eq(Faraknight::Middleware::DEFAULT_OPTIONS)
           expect(subclass_no_options.default_options).to eq(subclass_no_options::DEFAULT_OPTIONS)
           expect(subclass_one_option.default_options).to eq({ some_other_option: true })
           expect(subclass_two_options.default_options).to eq({ some_option: false, some_other_option: false })
@@ -154,17 +154,17 @@ RSpec.describe Faraday::Middleware do
 
     context 'with FARADAY::MIDDLEWARE DEFAULT_OPTIONS and with Subclass DEFAULT_OPTIONS' do
       before(:each) do
-        stub_const('Faraday::Middleware::DEFAULT_OPTIONS', { its_magic: false })
+        stub_const('Faraknight::Middleware::DEFAULT_OPTIONS', { its_magic: false })
       end
 
-      # Must stub Faraday::Middleware::DEFAULT_OPTIONS before resetting default options
+      # Must stub Faraknight::Middleware::DEFAULT_OPTIONS before resetting default options
       include_context 'reset @default_options'
 
       context 'and without application options configured' do
         let(:resp1) { build_conn(:one_option).get('/success') }
 
         it 'has only subclass defaults' do
-          expect(Faraday::Middleware.default_options).to eq(Faraday::Middleware::DEFAULT_OPTIONS)
+          expect(Faraknight::Middleware.default_options).to eq(Faraknight::Middleware::DEFAULT_OPTIONS)
           expect(FaradayMiddlewareSubclasses::SubclassNoOptions.default_options).to eq({ its_magic: false })
           expect(FaradayMiddlewareSubclasses::SubclassOneOption.default_options).to eq({ its_magic: false, some_other_option: false })
           expect(FaradayMiddlewareSubclasses::SubclassTwoOptions.default_options).to eq({ its_magic: false, some_option: true, some_other_option: false })
@@ -183,7 +183,7 @@ RSpec.describe Faraday::Middleware do
         end
 
         it 'updates subclasses and parent independent of each other' do
-          expect(Faraday::Middleware.default_options).to eq(Faraday::Middleware::DEFAULT_OPTIONS)
+          expect(Faraknight::Middleware.default_options).to eq(Faraknight::Middleware::DEFAULT_OPTIONS)
           expect(FaradayMiddlewareSubclasses::SubclassNoOptions.default_options).to eq({ its_magic: false })
           expect(FaradayMiddlewareSubclasses::SubclassOneOption.default_options).to eq({ its_magic: false, some_other_option: true })
           expect(FaradayMiddlewareSubclasses::SubclassTwoOptions.default_options).to eq({ its_magic: false, some_option: false, some_other_option: false })
@@ -197,14 +197,14 @@ RSpec.describe Faraday::Middleware do
     describe 'default_options input validation' do
       include_context 'reset @default_options'
 
-      it 'raises error if Faraday::Middleware option does not exist' do
-        expect { Faraday::Middleware.default_options = { something_special: true } }.to raise_error(Faraday::InitializationError) do |e|
-          expect(e.message).to eq('Invalid options provided. Keys not found in Faraday::Middleware::DEFAULT_OPTIONS: something_special')
+      it 'raises error if Faraknight::Middleware option does not exist' do
+        expect { Faraknight::Middleware.default_options = { something_special: true } }.to raise_error(Faraknight::InitializationError) do |e|
+          expect(e.message).to eq('Invalid options provided. Keys not found in Faraknight::Middleware::DEFAULT_OPTIONS: something_special')
         end
       end
 
       it 'raises error if subclass option does not exist' do
-        expect { subclass_one_option.default_options = { this_is_a_typo: true } }.to raise_error(Faraday::InitializationError) do |e|
+        expect { subclass_one_option.default_options = { this_is_a_typo: true } }.to raise_error(Faraknight::InitializationError) do |e|
           expect(e.message).to eq('Invalid options provided. Keys not found in FaradayMiddlewareSubclasses::SubclassOneOption::DEFAULT_OPTIONS: this_is_a_typo')
         end
       end

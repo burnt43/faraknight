@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::Error do
+RSpec.describe Faraknight::Error do
   describe '.initialize' do
     subject { described_class.new(exception, response) }
     let(:response) { nil }
@@ -12,7 +12,7 @@ RSpec.describe Faraday::Error do
       it { expect(subject.response).to be_nil }
       it { expect(subject.message).to eq(exception.message) }
       it { expect(subject.backtrace).to eq(exception.backtrace) }
-      it { expect(subject.inspect).to eq('#<Faraday::Error wrapped=#<RuntimeError: test>>') }
+      it { expect(subject.inspect).to eq('#<Faraknight::Error wrapped=#<RuntimeError: test>>') }
       it { expect(subject.response_status).to be_nil }
       it { expect(subject.response_headers).to be_nil }
       it { expect(subject.response_body).to be_nil }
@@ -23,11 +23,11 @@ RSpec.describe Faraday::Error do
 
       it { expect(subject.wrapped_exception).to be_nil }
       it { expect(subject.response).to eq(exception) }
-      it { expect(subject.message).to eq('the server responded with status 400 - method and url are not available due to include_request: false on Faraday::Response::RaiseError middleware') }
+      it { expect(subject.message).to eq('the server responded with status 400 - method and url are not available due to include_request: false on Faraknight::Response::RaiseError middleware') }
       if RUBY_VERSION >= '3.4'
-        it { expect(subject.inspect).to eq('#<Faraday::Error response={status: 400}>') }
+        it { expect(subject.inspect).to eq('#<Faraknight::Error response={status: 400}>') }
       else
-        it { expect(subject.inspect).to eq('#<Faraday::Error response={:status=>400}>') }
+        it { expect(subject.inspect).to eq('#<Faraknight::Error response={:status=>400}>') }
       end
       it { expect(subject.response_status).to eq(400) }
       it { expect(subject.response_headers).to be_nil }
@@ -40,7 +40,7 @@ RSpec.describe Faraday::Error do
       it { expect(subject.wrapped_exception).to be_nil }
       it { expect(subject.response).to be_nil }
       it { expect(subject.message).to eq('custom message') }
-      it { expect(subject.inspect).to eq('#<Faraday::Error #<Faraday::Error: custom message>>') }
+      it { expect(subject.inspect).to eq('#<Faraknight::Error #<Faraknight::Error: custom message>>') }
       it { expect(subject.response_status).to be_nil }
       it { expect(subject.response_headers).to be_nil }
       it { expect(subject.response_body).to be_nil }
@@ -52,7 +52,7 @@ RSpec.describe Faraday::Error do
       it { expect(subject.wrapped_exception).to be_nil }
       it { expect(subject.response).to be_nil }
       it { expect(subject.message).to eq('["error1", "error2"]') }
-      it { expect(subject.inspect).to eq('#<Faraday::Error #<Faraday::Error: ["error1", "error2"]>>') }
+      it { expect(subject.inspect).to eq('#<Faraknight::Error #<Faraknight::Error: ["error1", "error2"]>>') }
       it { expect(subject.response_status).to be_nil }
       it { expect(subject.response_headers).to be_nil }
       it { expect(subject.response_body).to be_nil }
@@ -66,9 +66,9 @@ RSpec.describe Faraday::Error do
       it { expect(subject.response).to eq(response) }
       it { expect(subject.message).to eq('custom message') }
       if RUBY_VERSION >= '3.4'
-        it { expect(subject.inspect).to eq('#<Faraday::Error response={status: 400}>') }
+        it { expect(subject.inspect).to eq('#<Faraknight::Error response={status: 400}>') }
       else
-        it { expect(subject.inspect).to eq('#<Faraday::Error response={:status=>400}>') }
+        it { expect(subject.inspect).to eq('#<Faraknight::Error response={:status=>400}>') }
       end
       it { expect(subject.response_status).to eq(400) }
       it { expect(subject.response_headers).to be_nil }
@@ -79,7 +79,7 @@ RSpec.describe Faraday::Error do
       let(:exception) { RuntimeError.new('test') }
       let(:body) { { test: 'test' } }
       let(:headers) { { 'Content-Type' => 'application/json' } }
-      let(:response) { Faraday::Response.new(status: 400, response_headers: headers, response_body: body) }
+      let(:response) { Faraknight::Response.new(status: 400, response_headers: headers, response_body: body) }
 
       it { expect(subject.wrapped_exception).to eq(exception) }
       it { expect(subject.response).to eq(response) }
@@ -95,7 +95,7 @@ RSpec.describe Faraday::Error do
 
       it { expect(subject.wrapped_exception).to be_nil }
       it { expect(subject.response).to eq(exception) }
-      it { expect(subject.message).to eq('the server responded with status  - method and url are not available due to include_request: false on Faraday::Response::RaiseError middleware') }
+      it { expect(subject.message).to eq('the server responded with status  - method and url are not available due to include_request: false on Faraknight::Response::RaiseError middleware') }
     end
 
     context 'with hash with status but missing request data' do
@@ -103,7 +103,7 @@ RSpec.describe Faraday::Error do
 
       it { expect(subject.wrapped_exception).to be_nil }
       it { expect(subject.response).to eq(exception) }
-      it { expect(subject.message).to eq('the server responded with status 404 - method and url are not available due to include_request: false on Faraday::Response::RaiseError middleware') }
+      it { expect(subject.message).to eq('the server responded with status 404 - method and url are not available due to include_request: false on Faraknight::Response::RaiseError middleware') }
     end
 
     context 'with hash with status and request but missing method in request' do
@@ -122,17 +122,17 @@ RSpec.describe Faraday::Error do
       it { expect(subject.message).to eq('the server responded with status 404 for GET ') }
     end
 
-    context 'with properly formed Faraday::Env' do
-      # This represents the normal case - a well-formed Faraday::Env object
+    context 'with properly formed Faraknight::Env' do
+      # This represents the normal case - a well-formed Faraknight::Env object
       # with all the standard properties populated as they would be during
       # a typical HTTP request/response cycle
-      let(:exception) { Faraday::Env.new }
+      let(:exception) { Faraknight::Env.new }
 
       before do
         exception.status = 500
         exception.method = :post
         exception.url = URI('https://api.example.com/users')
-        exception.request = Faraday::RequestOptions.new
+        exception.request = Faraknight::RequestOptions.new
         exception.response_headers = { 'content-type' => 'application/json' }
         exception.response_body = '{"error": "Internal server error"}'
         exception.request_headers = { 'authorization' => 'Bearer token123' }
@@ -144,8 +144,8 @@ RSpec.describe Faraday::Error do
       it { expect(subject.message).to eq('the server responded with status 500 for POST https://api.example.com/users') }
     end
 
-    context 'with Faraday::Env missing status key' do
-      let(:exception) { Faraday::Env.new }
+    context 'with Faraknight::Env missing status key' do
+      let(:exception) { Faraknight::Env.new }
 
       before do
         exception[:body] = 'error body'
@@ -157,8 +157,8 @@ RSpec.describe Faraday::Error do
       it { expect(subject.message).to eq('the server responded with status  for  ') }
     end
 
-    context 'with Faraday::Env with direct method and url properties' do
-      let(:exception) { Faraday::Env.new }
+    context 'with Faraknight::Env with direct method and url properties' do
+      let(:exception) { Faraknight::Env.new }
 
       before do
         exception.status = 404

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Faraday
+module Faraknight
   # @!parse
   #   # @!attribute method
   #   #   @return [Symbol] HTTP method (`:get`, `:post`)
@@ -64,7 +64,7 @@ module Faraday
 
     # A Set of HTTP verbs that typically send a body.  If no body is set for
     # these requests, the Content-Length header is set to 0.
-    const_set(:MethodsWithBodies, Set.new(Faraday::METHODS_WITH_BODY.map(&:to_sym)))
+    const_set(:MethodsWithBodies, Set.new(Faraknight::METHODS_WITH_BODY.map(&:to_sym)))
 
     options request: RequestOptions,
             request_headers: Utils::Headers, response_headers: Utils::Headers

@@ -2,7 +2,7 @@
 
 require 'monitor'
 
-module Faraday
+module Faraknight
   # AdapterRegistry registers adapter class names so they can be looked up by a
   # String or Symbol name.
   class AdapterRegistry

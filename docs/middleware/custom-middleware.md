@@ -2,15 +2,15 @@
 
 !> A template for writing your own middleware is available in the [faraday-middleware-template](https://github.com/lostisland/faraday-middleware-template) repository.
 
-The recommended way to write middleware is to make your middleware subclass `Faraday::Middleware`.
-`Faraday::Middleware` simply expects your subclass to implement two methods: `#on_request(env)` and `#on_complete(env)`.
+The recommended way to write middleware is to make your middleware subclass `Faraknight::Middleware`.
+`Faraknight::Middleware` simply expects your subclass to implement two methods: `#on_request(env)` and `#on_complete(env)`.
 * `#on_request` is called when the request is being built and is given the `env` representing the request.
 * `#on_complete` is called after the response has been received (that's right, it already supports parallel mode!) and receives the `env` of the response.
 
 For both `env` parameters, please refer to the [Env Object](getting-started/env-object.md) page.
 
 ```ruby
-class MyMiddleware < Faraday::Middleware
+class MyMiddleware < Faraknight::Middleware
   def on_request(env)
     # do something with the request
     # env[:request_headers].merge!(...)
@@ -51,34 +51,34 @@ information available in each one will differ based on the request/response life
 
 ## Accepting configuration options
 
-`Faraday::Middleware` also allows your middleware to accept configuration options.
+`Faraknight::Middleware` also allows your middleware to accept configuration options.
 These are passed in when the middleware is added to the stack, and can be accessed via the `options` getter.
 
 ```ruby
-class MyMiddleware < Faraday::Middleware
+class MyMiddleware < Faraknight::Middleware
   def on_request(_env)
     # access the foo option
     puts options[:foo]
   end
 end
 
-conn = Faraday.new(url: 'http://httpbingo.org') do |faraday|
+conn = Faraknight.new(url: 'http://httpbingo.org') do |faraday|
   faraday.use MyMiddleware, foo: 'bar'
 end
 ```
 
 ## Registering your middleware
 
-Users can use your middleware using the class directly, but you can also register it with Faraday so that
+Users can use your middleware using the class directly, but you can also register it with Faraknight so that
 it can be used with the `use`, `request` or `response` methods as well.
 
 ```ruby
 # Register for `use`
-Faraday::Middleware.register_middleware(my_middleware: MyMiddleware)
+Faraknight::Middleware.register_middleware(my_middleware: MyMiddleware)
 
 # Register for `request`
-Faraday::Request.register_middleware(my_middleware: MyMiddleware)
+Faraknight::Request.register_middleware(my_middleware: MyMiddleware)
 
 # Register for `response`
-Faraday::Response.register_middleware(my_middleware: MyMiddleware)
+Faraknight::Response.register_middleware(my_middleware: MyMiddleware)
 ```

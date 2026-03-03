@@ -1,8 +1,8 @@
 # Middleware
 
-Under the hood, Faraday uses a Rack-inspired middleware stack for making
-requests. Much of Faraday's power is unlocked with custom middleware. Some
-middleware is included with Faraday, and others are in external gems.
+Under the hood, Faraknight uses a Rack-inspired middleware stack for making
+requests. Much of Faraknight's power is unlocked with custom middleware. Some
+middleware is included with Faraknight, and others are in external gems.
 
 Here are some of the features that middleware can provide:
 
@@ -13,13 +13,13 @@ Here are some of the features that middleware can provide:
 - JSON encoding/decoding
 - logging
 
-To use these great features, create a `Faraday::Connection` with `Faraday.new`
+To use these great features, create a `Faraknight::Connection` with `Faraknight.new`
 and add the correct middleware in a block. For example:
 
 ```ruby
 require 'faraday'
 
-conn = Faraday.new do |f|
+conn = Faraknight.new do |f|
   f.request :json # encode req bodies as JSON
   f.response :logger # logs request and responses
   f.response :json # decode response bodies as JSON
@@ -30,10 +30,10 @@ response = conn.get("http://httpbingo.org/get")
 
 ### How it Works
 
-A `Faraday::Connection` uses a `Faraday::RackBuilder` to assemble a
+A `Faraknight::Connection` uses a `Faraknight::RackBuilder` to assemble a
 Rack-inspired middleware stack for making HTTP requests. Each middleware runs
 and passes an Env object around to the next one. After the final middleware has
-run, Faraday will return a `Faraday::Response` to the end user.
+run, Faraknight will return a `Faraknight::Response` to the end user.
 
 The order in which middleware is stacked is important. Like with Rack, the first
 middleware on the list wraps all others, while the last middleware is the
@@ -48,7 +48,7 @@ It doesn't really matter if the middleware was registered as a request or a resp
 Say you have the following:
 
 ```ruby
-Faraday.new(...) do |conn|
+Faraknight.new(...) do |conn|
   conn.request :authorization
   conn.response :json
   conn.response :parse_dates
@@ -82,13 +82,13 @@ Calling `use` is the most basic way to add middleware to your stack, but most
 middleware is conveniently registered in the `request`, `response` or `adapter`
 namespaces. All four methods are equivalent apart from the namespacing.
 
-For example, the `Faraday::Request::UrlEncoded` middleware registers itself in
-`Faraday::Request` so it can be added with `request`. These two are equivalent:
+For example, the `Faraknight::Request::UrlEncoded` middleware registers itself in
+`Faraknight::Request` so it can be added with `request`. These two are equivalent:
 
 ```ruby
-# add by symbol, lookup from Faraday::Request,
-# Faraday::Response and Faraday::Adapter registries
-conn = Faraday.new do |f|
+# add by symbol, lookup from Faraknight::Request,
+# Faraknight::Response and Faraknight::Adapter registries
+conn = Faraknight.new do |f|
   f.request :url_encoded
   f.response :logger
   f.adapter :net_http
@@ -99,17 +99,17 @@ or:
 
 ```ruby
 # identical, but add the class directly instead of using lookups
-conn = Faraday.new do |f|
-  f.use Faraday::Request::UrlEncoded
-  f.use Faraday::Response::Logger
-  f.use Faraday::Adapter::NetHttp
+conn = Faraknight.new do |f|
+  f.use Faraknight::Request::UrlEncoded
+  f.use Faraknight::Response::Logger
+  f.use Faraknight::Adapter::NetHttp
 end
 ```
 
 This is also the place to pass options. For example:
 
 ```ruby
-conn = Faraday.new do |f|
+conn = Faraknight.new do |f|
   f.request :logger, bodies: true
 end
 ```
@@ -144,13 +144,13 @@ In the case where it is desirable to change the default option for all instances
 ```ruby
 # config/initializers/faraday_config.rb
 
-Faraday::Response::RaiseError.default_options = { include_request: false }
+Faraknight::Response::RaiseError.default_options = { include_request: false }
 ```
 
 After app initialization, all instances of the middleware will have the newly configured option(s). They can still be overridden on a per-instance bases (if handled in the middleware), like this:
 
 ```ruby
-  Faraday.new do |f|
+  Faraknight.new do |f|
     ...
     f.response :raise_error, include_request: true 
     ...
@@ -159,7 +159,7 @@ After app initialization, all instances of the middleware will have the newly co
 
 ### Available Middleware
 
-The following pages provide detailed configuration for the middleware that ships with Faraday:
+The following pages provide detailed configuration for the middleware that ships with Faraknight:
 * [Authentication](middleware/included/authentication.md)
 * [URL Encoding](middleware/included/url-encoding.md)
 * [JSON Encoding/Decoding](middleware/included/json.md)
@@ -167,8 +167,8 @@ The following pages provide detailed configuration for the middleware that ships
 * [Logging](middleware/included/logging.md)
 * [Raising Errors](middleware/included/raising-errors.md)
 
-The [Awesome Faraday](https://github.com/lostisland/awesome-faraday/) project
-has a complete list of useful, well-maintained Faraday middleware. Middleware is
+The [Awesome Faraknight](https://github.com/lostisland/awesome-faraday/) project
+has a complete list of useful, well-maintained Faraknight middleware. Middleware is
 often provided by external gems, like the
 [faraday-retry](https://github.com/lostisland/faraday-retry) gem.
 
@@ -177,7 +177,7 @@ often provided by external gems, like the
 Here's a more realistic example:
 
 ```ruby
-Faraday.new(...) do |conn|
+Faraknight.new(...) do |conn|
   # POST/PUT params encoder
   conn.request :url_encoded
 

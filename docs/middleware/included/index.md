@@ -1,6 +1,6 @@
 # Included middleware
 
-Faraday ships with some useful middleware that you can use to customize your request/response lifecycle.
+Faraknight ships with some useful middleware that you can use to customize your request/response lifecycle.
 Middleware are separated into two macro-categories: **Request Middleware** and **Response Middleware**.
 The former usually deal with the request, encoding the parameters or setting headers.
 The latter instead activate after the request is completed and a response has been received, like
@@ -13,8 +13,8 @@ middleware set Header values or transform the request body based on the
 content type.
 
 * [`Authorization`][authentication] allows you to automatically add an Authorization header to your requests.
-* [`UrlEncoded`][url_encoded] converts a `Faraday::Request#body` hash of key/value pairs into a url-encoded request body.
-* [`Json Request`][json-request] converts a `Faraday::Request#body` hash of key/value pairs into a JSON request body.
+* [`UrlEncoded`][url_encoded] converts a `Faraknight::Request#body` hash of key/value pairs into a url-encoded request body.
+* [`Json Request`][json-request] converts a `Faraknight::Request#body` hash of key/value pairs into a JSON request body.
 * [`Instrumentation`][instrumentation] allows to instrument requests using different tools.
 
 

@@ -1,11 +1,11 @@
 # Test your custom adapter
 
-Faraday puts a lot of expectations on adapters, but it also provides you with useful tools to test your adapter
+Faraknight puts a lot of expectations on adapters, but it also provides you with useful tools to test your adapter
 against those expectations. This guide will walk you through the process of testing your adapter.
 
 ## The adapter test suite
 
-Faraday provides a test suite that you can use to test your adapter.
+Faraknight provides a test suite that you can use to test your adapter.
 The test suite is located in the `spec/external_adapters/faraday_specs_setup.rb`.
 
 All you need to do is to `require 'faraday_specs_setup'` in your adapter's `spec_helper.rb` file.
@@ -14,7 +14,7 @@ This will load the `an adapter` shared example group that you can use to test yo
 ```ruby
 require 'faraday_specs_setup'
 
-RSpec.describe Faraday::Adapter::FlorpHttp do
+RSpec.describe Faraknight::Adapter::FlorpHttp do
   it_behaves_like 'an adapter'
 
   # You can then add any other test specific to this adapter here...
@@ -30,14 +30,14 @@ If your adapter implements any of those optional features, you can test it again
 by calling the `features` method:
 
 ```ruby
-RSpec.describe Faraday::Adapter::MyAdapter do
-  # Since not all adapters support all the features Faraday has to offer, you can use
+RSpec.describe Faraknight::Adapter::MyAdapter do
+  # Since not all adapters support all the features Faraknight has to offer, you can use
   # the `features` method to turn on only the ones you know you can support.
   features :request_body_on_query_methods,
            :compression,
            :streaming
 
-  # Runs the tests provide by Faraday, according to the features specified above.
+  # Runs the tests provide by Faraknight, according to the features specified above.
   it_behaves_like 'an adapter'
 
   # You can then add any other test specific to this adapter here...

@@ -3,8 +3,8 @@
 require_relative 'lib/faraday/version'
 
 Gem::Specification.new do |spec|
-  spec.name    = 'faraday'
-  spec.version = Faraday::VERSION
+  spec.name    = 'faraknight'
+  spec.version = Faraknight::VERSION
 
   spec.summary = 'HTTP/REST API client library.'
 
@@ -15,17 +15,17 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 3.0'
 
-  # faraday-net_http is the "default adapter", but being a Faraday dependency it can't
+  # faraday-net_http is the "default adapter", but being a Faraknight dependency it can't
   # control which version of faraday it will be pulled from.
-  # To avoid releasing a major version every time there's a new Faraday API, we should
+  # To avoid releasing a major version every time there's a new Faraknight API, we should
   # always fix its required version to the next MINOR version.
-  # This way, we can release minor versions of the adapter with "breaking" changes for older versions of Faraday
+  # This way, we can release minor versions of the adapter with "breaking" changes for older versions of Faraknight
   # and then bump the version requirement on the next compatible version of faraday.
-  spec.add_dependency 'faraday-net_http', '>= 2.0', '< 3.5'
+  # spec.add_dependency 'faraday-net_http', '>= 2.0', '< 3.5'
   spec.add_dependency 'json'
   spec.add_dependency 'logger'
 
-  # Includes `examples` and `spec` to allow external adapter gems to run Faraday unit and integration tests
+  # Includes `examples` and `spec` to allow external adapter gems to run Faraknight unit and integration tests
   spec.files = Dir['CHANGELOG.md', '{examples,lib,spec}/**/*', 'LICENSE.md', 'Rakefile', 'README.md']
   spec.require_paths = %w[lib spec/external_adapters]
   spec.metadata = {

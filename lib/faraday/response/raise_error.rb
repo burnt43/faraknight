@@ -1,22 +1,22 @@
 # frozen_string_literal: true
 
-module Faraday
+module Faraknight
   class Response
-    # RaiseError is a Faraday middleware that raises exceptions on common HTTP
+    # RaiseError is a Faraknight middleware that raises exceptions on common HTTP
     # client or server error responses.
     class RaiseError < Middleware
       # rubocop:disable Naming/ConstantName
       ClientErrorStatuses = (400...500)
       ServerErrorStatuses = (500...600)
       ClientErrorStatusesWithCustomExceptions = {
-        400 => Faraday::BadRequestError,
-        401 => Faraday::UnauthorizedError,
-        403 => Faraday::ForbiddenError,
-        404 => Faraday::ResourceNotFound,
-        408 => Faraday::RequestTimeoutError,
-        409 => Faraday::ConflictError,
-        422 => Faraday::UnprocessableContentError,
-        429 => Faraday::TooManyRequestsError
+        400 => Faraknight::BadRequestError,
+        401 => Faraknight::UnauthorizedError,
+        403 => Faraknight::ForbiddenError,
+        404 => Faraknight::ResourceNotFound,
+        408 => Faraknight::RequestTimeoutError,
+        409 => Faraknight::ConflictError,
+        422 => Faraknight::UnprocessableContentError,
+        429 => Faraknight::TooManyRequestsError
       }.freeze
       # rubocop:enable Naming/ConstantName
 
@@ -31,13 +31,13 @@ module Faraday
         when 407
           # mimic the behavior that we get with proxy requests with HTTPS
           msg = %(407 "Proxy Authentication Required")
-          raise Faraday::ProxyAuthError.new(msg, response_values(env))
+          raise Faraknight::ProxyAuthError.new(msg, response_values(env))
         when ClientErrorStatuses
-          raise Faraday::ClientError, response_values(env)
+          raise Faraknight::ClientError, response_values(env)
         when ServerErrorStatuses
-          raise Faraday::ServerError, response_values(env)
+          raise Faraknight::ServerError, response_values(env)
         when nil
-          raise Faraday::NilStatusError, response_values(env)
+          raise Faraknight::NilStatusError, response_values(env)
         end
       end
 
@@ -73,11 +73,11 @@ module Faraday
       end
 
       def query_params(env)
-        env.request.params_encoder ||= Faraday::Utils.default_params_encoder
+        env.request.params_encoder ||= Faraknight::Utils.default_params_encoder
         env.params_encoder.decode(env.url.query)
       end
     end
   end
 end
 
-Faraday::Response.register_middleware(raise_error: Faraday::Response::RaiseError)
+Faraknight::Response.register_middleware(raise_error: Faraknight::Response::RaiseError)

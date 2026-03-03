@@ -1,12 +1,12 @@
-# Faraday Docs
+# Faraknight Docs
 
-Faraday Docs are powered by [Docsify](https://docsify.js.org/#/).
+Faraknight Docs are powered by [Docsify](https://docsify.js.org/#/).
 
 ## Development
 
 ### Setup
 
-From the Faraday project root, run the following:
+From the Faraknight project root, run the following:
 
 ```bash
 npm install # this will install the necessary dependencies

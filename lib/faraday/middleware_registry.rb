@@ -2,7 +2,7 @@
 
 require 'monitor'
 
-module Faraday
+module Faraknight
   # Adds the ability for other modules to register and lookup
   # middleware classes.
   module MiddlewareRegistry
@@ -17,9 +17,9 @@ module Faraday
     #
     # @example Lookup by a constant
     #
-    #   module Faraday
+    #   module Faraknight
     #     class Whatever < Middleware
-    #       # Middleware looked up by :foo returns Faraday::Whatever::Foo.
+    #       # Middleware looked up by :foo returns Faraknight::Whatever::Foo.
     #       register_middleware(foo: Whatever)
     #     end
     #   end
@@ -40,21 +40,21 @@ module Faraday
     #
     # @param key [Symbol] key for the registered middleware.
     # @return [Class] a middleware Class.
-    # @raise [Faraday::Error] if given key is not registered
+    # @raise [Faraknight::Error] if given key is not registered
     #
     # @example
     #
-    #   module Faraday
+    #   module Faraknight
     #     class Whatever < Middleware
     #       register_middleware(foo: Whatever)
     #     end
     #   end
     #
-    #   Faraday::Middleware.lookup_middleware(:foo)
-    #   # => Faraday::Whatever
+    #   Faraknight::Middleware.lookup_middleware(:foo)
+    #   # => Faraknight::Whatever
     def lookup_middleware(key)
       load_middleware(key) ||
-        raise(Faraday::Error, "#{key.inspect} is not registered on #{self}")
+        raise(Faraknight::Error, "#{key.inspect} is not registered on #{self}")
     end
 
     private

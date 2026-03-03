@@ -2,7 +2,7 @@
 
 require 'json'
 
-module Faraday
+module Faraknight
   class Request
     # Request middleware that encodes the body as JSON.
     #
@@ -67,4 +67,4 @@ module Faraday
   end
 end
 
-Faraday::Request.register_middleware(json: Faraday::Request::Json)
+Faraknight::Request.register_middleware(json: Faraknight::Request::Json)

@@ -1,16 +1,16 @@
 # Test Adapter
 
-The built-in Faraday Test adapter lets you define stubbed HTTP requests. This can
+The built-in Faraknight Test adapter lets you define stubbed HTTP requests. This can
 be used to mock out network services in an application's unit tests.
 
 The easiest way to do this is to create the stubbed requests when initializing
-a `Faraday::Connection`. Stubbing a request by path yields a block with a
-`Faraday::Env` object. The stub block expects an Array return value with three
+a `Faraknight::Connection`. Stubbing a request by path yields a block with a
+`Faraknight::Env` object. The stub block expects an Array return value with three
 values: an Integer HTTP status code, a Hash of key/value headers, and a
 response body.
 
 ```ruby
-conn = Faraday.new do |builder|
+conn = Faraknight.new do |builder|
   builder.adapter :test do |stub|
     # block returns an array with 3 items:
     # - Integer response status
@@ -26,7 +26,7 @@ conn = Faraday.new do |builder|
 
     # test exceptions too
     stub.get('/boom') do
-      raise Faraday::ConnectionFailed
+      raise Faraknight::ConnectionFailed
     end
   end
 end
@@ -35,7 +35,7 @@ end
 You can define the stubbed requests outside of the test adapter block:
 
 ```ruby
-stubs = Faraday::Adapter::Test::Stubs.new do |stub|
+stubs = Faraknight::Adapter::Test::Stubs.new do |stub|
   stub.get('/tamago') { |env| [200, {}, 'egg'] }
 end
 ```
@@ -43,7 +43,7 @@ end
 This Stubs instance can be passed to a new Connection:
 
 ```ruby
-conn = Faraday.new do |builder|
+conn = Faraknight.new do |builder|
   builder.adapter :test, stubs do |stub|
     stub.get('/ebi') { |env| [ 200, {}, 'shrimp' ]}
   end
@@ -69,7 +69,7 @@ If you want to stub requests that exactly match a path, parameters, and headers,
 `strict_mode` would be useful.
 
 ```ruby
-stubs = Faraday::Adapter::Test::Stubs.new(strict_mode: true) do |stub|
+stubs = Faraknight::Adapter::Test::Stubs.new(strict_mode: true) do |stub|
   stub.get('/ikura?nori=true', 'X-Soy-Sauce' => '5ml' ) { |env| [200, {}, 'ikura gunkan maki'] }
 end
 ```
@@ -80,8 +80,8 @@ This stub expects the connection will be called like this:
 conn.get('/ikura', { nori: 'true' }, { 'X-Soy-Sauce' => '5ml' } )
 ```
 
-If there are other parameters or headers included, the Faraday Test adapter
-will raise `Faraday::Test::Stubs::NotFound`. It also raises the error
+If there are other parameters or headers included, the Faraknight Test adapter
+will raise `Faraknight::Test::Stubs::NotFound`. It also raises the error
 if the specified parameters (`nori`) or headers (`X-Soy-Sauce`) are omitted.
 
 You can also enable `strict_mode` after initializing the connection.
@@ -105,7 +105,7 @@ the default connection to prevent it from being cached between different tests.
 This allows for each test to have its own set of stubs
 
 ```ruby
-Faraday.default_connection = nil
+Faraknight.default_connection = nil
 ```
 
 ## Examples

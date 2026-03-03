@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-module Faraday
+module Faraknight
   class Request
     # Request middleware for the Authorization HTTP header
-    class Authorization < Faraday::Middleware
+    class Authorization < Faraknight::Middleware
       KEY = 'Authorization'
 
       # @param app [#call]
@@ -19,7 +19,7 @@ module Faraday
         super(app)
       end
 
-      # @param env [Faraday::Env]
+      # @param env [Faraknight::Env]
       def on_request(env)
         return if env.request_headers[KEY]
 
@@ -29,7 +29,7 @@ module Faraday
       private
 
       # @param type [String, Symbol]
-      # @param env [Faraday::Env]
+      # @param env [Faraknight::Env]
       # @param params [Array]
       # @return [String] a header value
       def header_from(type, env, *params)
@@ -51,4 +51,4 @@ module Faraday
   end
 end
 
-Faraday::Request.register_middleware(authorization: Faraday::Request::Authorization)
+Faraknight::Request.register_middleware(authorization: Faraknight::Request::Authorization)

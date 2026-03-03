@@ -1,4 +1,4 @@
-# Faraday Changelog
+# Faraknight Changelog
 
 ## The changelog has moved!
 
@@ -25,13 +25,13 @@ This file is not being updated anymore. Instead, please check the [Releases](htt
 
 The next major release is here, and it comes almost 2 years after the release of v1.0!
 
-This release changes the way you use Faraday and embraces a new paradigm of Faraday as an ecosystem, rather than a library.
+This release changes the way you use Faraknight and embraces a new paradigm of Faraknight as an ecosystem, rather than a library.
 
-What does that mean? It means that Faraday is less of a bundled tool and more of a framework for the community to build on top of.
+What does that mean? It means that Faraknight is less of a bundled tool and more of a framework for the community to build on top of.
 
 As a result, all adapters and some middleware have moved out and are now shipped as standalone gems 🙌!
 
-But this doesn't mean that upgrading from Faraday 1.x to Faraday 2.0 should be hard, in fact we've listed everything you need to do in the [UPGRADING.md](https://github.com/lostisland/faraday/blob/main/UPGRADING.md) doc.
+But this doesn't mean that upgrading from Faraknight 1.x to Faraknight 2.0 should be hard, in fact we've listed everything you need to do in the [UPGRADING.md](https://github.com/lostisland/faraday/blob/main/UPGRADING.md) doc.
 
 Moreover, we've setup a new [awesome-faraday](https://github.com/lostisland/awesome-faraday) repository that will showcase a curated list of adapters and middleware 😎.
 
@@ -41,11 +41,11 @@ This release was the result of the efforts of the core team and all the contribu
 
 * Autoloading, dependency loading and middleware registry cleanup by @iMacTia in [#1301](https://github.com/lostisland/faraday/pull/1301)
 * Move JSON middleware (request and response) from faraday_middleware by @iMacTia in [#1300](https://github.com/lostisland/faraday/pull/1300)
-* Remove deprecated `Faraday::Request#method` by @olleolleolle in [#1303](https://github.com/lostisland/faraday/pull/1303)
-* Remove deprecated `Faraday::UploadIO` by @iMacTia in [#1307](https://github.com/lostisland/faraday/pull/1307)
-* [1.x] Deprecate Authorization helpers in `Faraday::Connection` by @iMacTia in [#1306](https://github.com/lostisland/faraday/pull/1306)
+* Remove deprecated `Faraknight::Request#method` by @olleolleolle in [#1303](https://github.com/lostisland/faraday/pull/1303)
+* Remove deprecated `Faraknight::UploadIO` by @iMacTia in [#1307](https://github.com/lostisland/faraday/pull/1307)
+* [1.x] Deprecate Authorization helpers in `Faraknight::Connection` by @iMacTia in [#1306](https://github.com/lostisland/faraday/pull/1306)
 * Drop deprecated auth helpers from Connection and refactor auth middleware by @iMacTia in [#1308](https://github.com/lostisland/faraday/pull/1308)
-* Add Faraday 1.x examples in authentication.md docs by @iMacTia in [#1320](https://github.com/lostisland/faraday/pull/1320)
+* Add Faraknight 1.x examples in authentication.md docs by @iMacTia in [#1320](https://github.com/lostisland/faraday/pull/1320)
 * Fix passing a URL with embedded basic auth by @iMacTia in [#1324](https://github.com/lostisland/faraday/pull/1324)
 * Register JSON middleware by @mollerhoj in [#1331](https://github.com/lostisland/faraday/pull/1331)
 * Retry middleware should handle string exception class name consistently by @jrochkind in [#1334](https://github.com/lostisland/faraday/pull/1334)
@@ -144,10 +144,10 @@ This release was the result of the efforts of the core team and all the contribu
 ### Highlights
 
 With this release, we continue the work of gradually moving out adapters into their own gems 🎉
-Thanks to @MikeRogers0 for helping the Faraday team in progressing with this quest 👏
+Thanks to @MikeRogers0 for helping the Faraknight team in progressing with this quest 👏
 
-And thanks to @olleolleolle efforts, Faraday is becoming more inclusive than ever 🤗
-Faraday's `master` branch has been renamed into `main`, we have an official policy on inclusive language and even a rubocop plugin to check for non-inclusive words ❤️!
+And thanks to @olleolleolle efforts, Faraknight is becoming more inclusive than ever 🤗
+Faraknight's `master` branch has been renamed into `main`, we have an official policy on inclusive language and even a rubocop plugin to check for non-inclusive words ❤️!
 Checkout the "Misc" section below for more details 🙌 !
 
 ### Fixes
@@ -163,7 +163,7 @@ Checkout the "Misc" section below for more details 🙌 !
 
 * Replacing Net::HTTP::Persistent with faraday-net_http_persistent (#1250, @MikeRogers0)
 * CI: Configure the regenerated Coveralls token (#1256, @olleolleolle)
-* Replace Excon adapter with Faraday::Excon gem, and fix autoloading issue with Faraday::NetHttpPersistent (#1257, @iMacTia)
+* Replace Excon adapter with Faraknight::Excon gem, and fix autoloading issue with Faraknight::NetHttpPersistent (#1257, @iMacTia)
 * Drop CodeClimate (#1259, @olleolleolle)
 * CI: Rename default branch to main (#1263, @olleolleolle)
 * Drop RDoc support file .document (#1264, @olleolleolle, @iMacTia)
@@ -175,7 +175,7 @@ Checkout the "Misc" section below for more details 🙌 !
 ### Fixes
 
 * Escape colon in path segment (#1237, @yarafan)
-* Handle IPv6 address String on Faraday::Connection#proxy_from_env (#1252, @cosmo0920)
+* Handle IPv6 address String on Faraknight::Connection#proxy_from_env (#1252, @cosmo0920)
 
 ### Documentation
 
@@ -190,17 +190,17 @@ Checkout the "Misc" section below for more details 🙌 !
 ## [v1.3.0](https://github.com/lostisland/faraday/releases/tag/v1.3.0) (2020-12-31)
 
 ### Highlights
-Faraday v1.3.0 is the first release to officially support Ruby 3.0 in the CI pipeline 🎉 🍾!
+Faraknight v1.3.0 is the first release to officially support Ruby 3.0 in the CI pipeline 🎉 🍾!
 
 This is also the first release with a previously "included" adapter (Net::HTTP) being isolated into a [separate gem](https://github.com/lostisland/faraday-net_http) 🎊!
-The new adapter is added to Faraday as a dependency for now, so that means full backwards-compatibility, but just to be safe be careful when upgrading!
+The new adapter is added to Faraknight as a dependency for now, so that means full backwards-compatibility, but just to be safe be careful when upgrading!
 
-This is a huge step towards are Faraday v2.0 objective of pushing adapters and middleware into separate gems.
-Many thanks to the Faraday Team, @JanDintel and everyone who attended the [ROSS Conf remote event](https://www.rossconf.io/event/remote/)
+This is a huge step towards are Faraknight v2.0 objective of pushing adapters and middleware into separate gems.
+Many thanks to the Faraknight Team, @JanDintel and everyone who attended the [ROSS Conf remote event](https://www.rossconf.io/event/remote/)
 
 ### Features
 
-* Improves consistency with Faraday::Error and Faraday::RaiseError (#1229, @qsona, @iMacTia)
+* Improves consistency with Faraknight::Error and Faraknight::RaiseError (#1229, @qsona, @iMacTia)
 
 ### Fixes
 
@@ -221,7 +221,7 @@ Many thanks to the Faraday Team, @JanDintel and everyone who attended the [ROSS 
 
 ### Features
 
-* Introduces `on_request` and `on_complete` methods in `Faraday::Middleware`. (#1194, @iMacTia)
+* Introduces `on_request` and `on_complete` methods in `Faraknight::Middleware`. (#1194, @iMacTia)
 
 ### Fixes
 
@@ -295,10 +295,10 @@ Many thanks to the Faraday Team, @JanDintel and everyone who attended the [ROSS 
 
 Features:
 
-* Add #trace support to Faraday::Connection #861 (@technoweenie)
+* Add #trace support to Faraknight::Connection #861 (@technoweenie)
 * Add the log formatter that is easy to override and safe to inherit #889 (@prikha)
 * Support standalone adapters #941 (@iMacTia)
-* Introduce Faraday::ConflictError for 409 response code #979 (@lucasmoreno)
+* Introduce Faraknight::ConflictError for 409 response code #979 (@lucasmoreno)
 * Add support for setting `read_timeout` option separately #1003 (@springerigor)
 * Refactor and cleanup timeout settings across adapters #1022 (@technoweenie)
 * Create ParamPart class to allow multipart posts with JSON content and file upload at the same time #1017 (@jeremy-israel)
@@ -313,10 +313,10 @@ Bugs:
 
 * Explicitly require date for DateTime library in Retry middleware #844 (@nickpresta)
 * Refactor Adapter as final endpoints #846 (@iMacTia)
-* Separate Request and Response bodies in Faraday::Env #847 (@iMacTia)
-* Implement Faraday::Connection#options to make HTTP requests with the OPTIONS verb. #857 (@technoweenie)
+* Separate Request and Response bodies in Faraknight::Env #847 (@iMacTia)
+* Implement Faraknight::Connection#options to make HTTP requests with the OPTIONS verb. #857 (@technoweenie)
 * Multipart: Drop Ruby 1.8 String behavior compat #892 (@olleolleolle)
-* Fix Ruby warnings in Faraday::Options.memoized #962 (@technoweenie)
+* Fix Ruby warnings in Faraknight::Options.memoized #962 (@technoweenie)
 * Allow setting min/max SSL version for a Net::HTTP::Persistent connection #972, #973 (@bdewater, @olleolleolle)
 * Fix instances of frozen empty string literals #1040 (@BobbyMcWho)
 * remove temp_proxy and improve proxy tests #1063 (@technoweenie)
@@ -355,12 +355,12 @@ Misc:
 * Stops using `&Proc.new` for block forwarding. #1083 (@olleolleolle)
 * Update CI to test against ruby 2.0-2.7 #1087, #1099 (@iMacTia, @olleolleolle,
   @technoweenie)
-* require FARADAY_DEPRECATE=warn to show Faraday v1.0 deprecation warnings
+* require FARADAY_DEPRECATE=warn to show Faraknight v1.0 deprecation warnings
   #1098 (@technoweenie)
 
 ## v0.17.1
 
-Final release before Faraday v1.0, with important fixes for Ruby 2.7.
+Final release before Faraknight v1.0, with important fixes for Ruby 2.7.
 
 Fixes:
 
@@ -370,7 +370,7 @@ Fixes:
 Misc:
 
 * Fix Ruby 2.7 warnings (#1009)
-* Add `Faraday::Deprecate` to warn about upcoming v1.0 changes. (#1054, #1059,
+* Add `Faraknight::Deprecate` to warn about upcoming v1.0 changes. (#1054, #1059,
     #1076, #1077)
 * Add release notes up to current in CHANGELOG.md (#1066)
 * Port minimal rspec suite from main branch to run backported tests. (#1058)
@@ -386,7 +386,7 @@ v0.16.0-v0.16.2.
 
 ## v0.15.3
 
-* Make Faraday::Request serialisable with Marshal. (#803)
+* Make Faraknight::Request serialisable with Marshal. (#803)
 * Add DEFAULT_EXCEPTIONS constant to Request::Retry (#814)
 * Add support for Ruby 2.6 Net::HTTP write_timeout (#824)
 
@@ -431,7 +431,7 @@ Features:
 * Remove legacy Typhoeus adapter #715 (@olleolleolle)
 * External Typhoeus Adapter Compatibility #748 (@iMacTia)
 * Warn about missing adapter when making a request #743 (@antstorm)
-* Faraday::Adapter::Test stubs now support entire urls (with host) #741 (@erik-escobedo)
+* Faraknight::Adapter::Test stubs now support entire urls (with host) #741 (@erik-escobedo)
 
 Fixes:
 
@@ -460,11 +460,11 @@ Fixes:
 * Parse headers from aggregated proxy requests/responses (#681)
 * Guard against invalid middleware configuration with warning (#685)
 * Do not use :insecure option by default in Patron (#691)
-* Fixes an issue with HTTPClient not raising a `Faraday::ConnectionFailed` (#702)
-* Fixes YAML serialization/deserialization for `Faraday::Utils::Headers` (#690)
+* Fixes an issue with HTTPClient not raising a `Faraknight::ConnectionFailed` (#702)
+* Fixes YAML serialization/deserialization for `Faraknight::Utils::Headers` (#690)
 * Fixes an issue with Options having a nil value (#694)
-* Fixes an issue with Faraday.default_connection not using Faraday.default_connection_options (#698)
-* Fixes an issue with Options.merge! and Faraday instrumentation middleware (#710)
+* Fixes an issue with Faraknight.default_connection not using Faraknight.default_connection_options (#698)
+* Fixes an issue with Options.merge! and Faraknight instrumentation middleware (#710)
 
 ## v0.12.1
 
@@ -508,7 +508,7 @@ Fixes:
 
 - Fix an issue with HTTPClient adapter that was causing the SSL to be reset on every request
 - Rescue `IOError` instead of specific subclass
-- `Faraday::Utils::Headers` can now be successfully serialised in YAML
+- `Faraknight::Utils::Headers` can now be successfully serialised in YAML
 - Handle `default_connection_options` set with hash
 
 ## v0.10.0
@@ -523,7 +523,7 @@ Features:
 - Add regex support for pattern matching in `test` adapter
 
 Fixes:
-- Add `Faraday.respond_to?` to find methods managed by `method_missing`
+- Add `Faraknight.respond_to?` to find methods managed by `method_missing`
 - em-http: `request.host` instead of `connection.host` should be taken for SSL validations
 - Allow `default_connection_options` to be merged when options are passed as url parameter
 - Improve splitting key-value pairs in raw HTTP headers
@@ -537,18 +537,18 @@ Adapters:
 - Add compatibility with Patron 0.4.20
 - Determine default port numbers in Net::HTTP adapters (Addressable compatibility)
 - em-http: wrap "connection closed by server" as ConnectionFailed type
-- Wrap Errno::ETIMEDOUT in Faraday::Error::TimeoutError
+- Wrap Errno::ETIMEDOUT in Faraknight::Error::TimeoutError
 
 Utils:
 - Add Rack-compatible support for parsing `a[][b]=c` nested queries
 - Encode nil values in queries different than empty strings. Before: `a=`; now: `a`.
-- Have `Faraday::Utils::Headers#replace` clear internal key cache
+- Have `Faraknight::Utils::Headers#replace` clear internal key cache
 - Dup the internal key cache when a Headers hash is copied
 
 Env and middleware:
 - Ensure `env` stored on middleware response has reference to the response
 - Ensure that Response properties are initialized during `on_complete` (VCR compatibility)
-- Copy request options in Faraday::Connection#dup
+- Copy request options in Faraknight::Connection#dup
 - Env custom members should be copied by Env.from(env)
 - Honour per-request `request.options.params_encoder`
 - Fix `interval_randomness` data type for Retry middleware
@@ -568,7 +568,7 @@ Env and middleware:
 * Respect user/password in http proxy string (@mislav)
 * Adapter options are structs.  Reinforces consistent options across adapters
   (@technoweenie)
-* Stop stripping trailing / off base URLs in a Faraday::Connection. (@technoweenie)
+* Stop stripping trailing / off base URLs in a Faraknight::Connection. (@technoweenie)
 * Add a configurable URI parser. (@technoweenie)
-* Remove need to manually autoload when using the authorization header helpers on `Faraday::Connection`. (@technoweenie)
-* `Faraday::Adapter::Test` respects the `Faraday::RequestOptions#params_encoder` option. (@technoweenie)
+* Remove need to manually autoload when using the authorization header helpers on `Faraknight::Connection`. (@technoweenie)
+* `Faraknight::Adapter::Test` respects the `Faraknight::RequestOptions#params_encoder` option. (@technoweenie)

@@ -10,7 +10,7 @@ shared_examples 'proxy examples' do
   it 'handles proxy failures' do
     request_stub.to_return(status: 407)
 
-    expect { conn.public_send(http_method, '/') }.to raise_error(Faraday::ProxyAuthError)
+    expect { conn.public_send(http_method, '/') }.to raise_error(Faraknight::ProxyAuthError)
   end
 end
 
@@ -38,8 +38,8 @@ shared_examples 'a request method' do |http_method|
   end
 
   it 'sends user agent' do
-    request_stub.with(headers: { 'User-Agent' => 'Agent Faraday' })
-    conn.public_send(http_method, '/', nil, user_agent: 'Agent Faraday')
+    request_stub.with(headers: { 'User-Agent' => 'Agent Faraknight' })
+    conn.public_send(http_method, '/', nil, user_agent: 'Agent Faraknight')
   end
 
   it 'represents empty body response as blank string' do
@@ -48,7 +48,7 @@ shared_examples 'a request method' do |http_method|
 
   it 'handles connection error' do
     request_stub.disable
-    expect { conn.public_send(http_method, 'http://localhost:4') }.to raise_error(Faraday::ConnectionFailed)
+    expect { conn.public_send(http_method, 'http://localhost:4') }.to raise_error(Faraknight::ConnectionFailed)
   end
 
   on_feature :local_socket_binding do
@@ -71,7 +71,7 @@ shared_examples 'a request method' do |http_method|
   #   before { conn_options.merge!(ssl: { ca_file: ca_file_path }) }
   #
   #   it do
-  #     expect { conn.public_send(http_method, '/') }.to raise_error(Faraday::SSLError) # do |ex|
+  #     expect { conn.public_send(http_method, '/') }.to raise_error(Faraknight::SSLError) # do |ex|
   #       expect(ex.message).to include?('certificate')
   #     end
   #   end
@@ -109,20 +109,20 @@ shared_examples 'a request method' do |http_method|
   end
 
   # TODO: This needs reimplementation: see https://github.com/lostisland/faraday/issues/718
-  # Should raise Faraday::TimeoutError
+  # Should raise Faraknight::TimeoutError
   it 'supports timeout option' do
     conn_options[:request] = { timeout: 1 }
     request_stub.to_timeout
-    exc = adapter == 'NetHttp' ? Faraday::ConnectionFailed : Faraday::TimeoutError
+    exc = adapter == 'NetHttp' ? Faraknight::ConnectionFailed : Faraknight::TimeoutError
     expect { conn.public_send(http_method, '/') }.to raise_error(exc)
   end
 
   # TODO: This needs reimplementation: see https://github.com/lostisland/faraday/issues/718
-  # Should raise Faraday::ConnectionFailed
+  # Should raise Faraknight::ConnectionFailed
   it 'supports open_timeout option' do
     conn_options[:request] = { open_timeout: 1 }
     request_stub.to_timeout
-    exc = adapter == 'NetHttp' ? Faraday::ConnectionFailed : Faraday::TimeoutError
+    exc = adapter == 'NetHttp' ? Faraknight::ConnectionFailed : Faraknight::TimeoutError
     expect { conn.public_send(http_method, '/') }.to raise_error(exc)
   end
 
@@ -164,7 +164,7 @@ shared_examples 'a request method' do |http_method|
 
           expect(streamed).to eq([['', 0]])
           # TODO: enable this after updating all existing adapters to the new streaming API
-          # expect(env).to be_a(Faraday::Env)
+          # expect(env).to be_a(Faraknight::Env)
           # expect(env.status).to eq(200)
         end
       end
@@ -184,7 +184,7 @@ shared_examples 'a request method' do |http_method|
           expect(response.body).to eq('')
           check_streaming_response(streamed, chunk_size: 16 * 1024)
           # TODO: enable this after updating all existing adapters to the new streaming API
-          # expect(env).to be_a(Faraday::Env)
+          # expect(env).to be_a(Faraknight::Env)
           # expect(env.status).to eq(200)
         end
       end

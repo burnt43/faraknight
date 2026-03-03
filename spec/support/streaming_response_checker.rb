@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Faraday
+module Faraknight
   module StreamingResponseChecker
     def check_streaming_response(streamed, options = {})
       opts = {

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-module Faraday
+module Faraknight
   class Request
     # Middleware for supporting urlencoded requests.
-    class UrlEncoded < Faraday::Middleware
-      unless defined?(::Faraday::Request::UrlEncoded::CONTENT_TYPE)
+    class UrlEncoded < Faraknight::Middleware
+      unless defined?(::Faraknight::Request::UrlEncoded::CONTENT_TYPE)
         CONTENT_TYPE = 'Content-Type'
       end
 
@@ -16,16 +16,16 @@ module Faraday
       # Encodes as "application/x-www-form-urlencoded" if not already encoded or
       # of another type.
       #
-      # @param env [Faraday::Env]
+      # @param env [Faraknight::Env]
       def call(env)
         match_content_type(env) do |data|
-          params = Faraday::Utils::ParamsHash[data]
+          params = Faraknight::Utils::ParamsHash[data]
           env.body = params.to_query(env.params_encoder)
         end
         @app.call env
       end
 
-      # @param env [Faraday::Env]
+      # @param env [Faraknight::Env]
       # @yield [request_body] Body of the request
       def match_content_type(env)
         return unless process_request?(env)
@@ -36,7 +36,7 @@ module Faraday
         yield(env.body)
       end
 
-      # @param env [Faraday::Env]
+      # @param env [Faraknight::Env]
       #
       # @return [Boolean] True if the request has a body and its Content-Type is
       #                   urlencoded.
@@ -45,7 +45,7 @@ module Faraday
         env.body && (type.empty? || (type == self.class.mime_type))
       end
 
-      # @param env [Faraday::Env]
+      # @param env [Faraknight::Env]
       #
       # @return [String]
       def request_type(env)
@@ -57,4 +57,4 @@ module Faraday
   end
 end
 
-Faraday::Request.register_middleware(url_encoded: Faraday::Request::UrlEncoded)
+Faraknight::Request.register_middleware(url_encoded: Faraknight::Request::UrlEncoded)

@@ -5,7 +5,7 @@ Options for this middleware include the instrumentation `name` and the `instrume
 They default to `request.faraday` and `ActiveSupport::Notifications` respectively, but you can provide your own:
 
 ```ruby
-conn = Faraday.new(...) do |f|
+conn = Faraknight.new(...) do |f|
   f.request :instrumentation, name: 'custom_name', instrumenter: MyInstrumenter
   ...
 end
@@ -17,7 +17,7 @@ The `Instrumentation` middleware will use `ActiveSupport::Notifications` by defa
 allowing you to subscribe to the default event name and instrument requests:
 
 ```ruby
-conn = Faraday.new('http://example.com') do |f|
+conn = Faraknight.new('http://example.com') do |f|
   f.request :instrumentation
   ...
 end

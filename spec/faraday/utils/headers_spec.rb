@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::Utils::Headers do
-  subject { Faraday::Utils::Headers.new }
+RSpec.describe Faraknight::Utils::Headers do
+  subject { Faraknight::Utils::Headers.new }
 
   context 'when Content-Type is set to application/json' do
     before { subject['Content-Type'] = 'application/json' }

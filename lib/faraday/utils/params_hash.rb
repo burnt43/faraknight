@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Faraday
+module Faraknight
   module Utils
     # A hash with stringified keys.
     class ParamsHash < Hash

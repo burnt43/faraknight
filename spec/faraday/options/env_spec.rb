@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::Env do
+RSpec.describe Faraknight::Env do
   subject(:env) { described_class.new }
 
   it 'allows to access members' do
@@ -22,13 +22,13 @@ RSpec.describe Faraday::Env do
   end
 
   it 'ignores false when fetching' do
-    ssl = Faraday::SSLOptions.new
+    ssl = Faraknight::SSLOptions.new
     ssl.verify = false
     expect(ssl.fetch(:verify, true)).to be_falsey
   end
 
   it 'handle verify_hostname when fetching' do
-    ssl = Faraday::SSLOptions.new
+    ssl = Faraknight::SSLOptions.new
     ssl.verify_hostname = true
     expect(ssl.fetch(:verify_hostname, false)).to be_truthy
   end
@@ -36,7 +36,7 @@ RSpec.describe Faraday::Env do
   it 'retains custom members' do
     env[:foo] = 'custom 1'
     env[:bar] = :custom2
-    env2 = Faraday::Env.from(env)
+    env2 = Faraknight::Env.from(env)
     env2[:baz] = 'custom 3'
 
     expect(env2[:foo]).to eq('custom 1')
@@ -57,7 +57,7 @@ RSpec.describe Faraday::Env do
       before do
         env.status = 200
         env.body = { bar: 'foo' }
-        env.response = Faraday::Response.new(env)
+        env.response = Faraknight::Response.new(env)
       end
 
       it 'returns the response body' do

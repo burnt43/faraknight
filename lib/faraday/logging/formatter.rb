@@ -2,7 +2,7 @@
 
 require 'pp' # This require is necessary for Hash#pretty_inspect to work, do not remove it, people rely on it.
 
-module Faraday
+module Faraknight
   module Logging
     # Serves as an integration point to customize logging
     class Formatter

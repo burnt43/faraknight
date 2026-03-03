@@ -9,13 +9,13 @@ exist. Its only function is to make this example more concrete.
 
 ## An Adapter _is_ a Middleware
 
-When you subclass `Faraday::Adapter`, you get helpful methods defined and all you need to do is to
+When you subclass `Faraknight::Adapter`, you get helpful methods defined and all you need to do is to
 extend the `call` method (remember to call `super` inside it!):
 
 ```ruby
-module Faraday
+module Faraknight
   class Adapter
-    class FlorpHttp < Faraday::Adapter
+    class FlorpHttp < Faraknight::Adapter
       def call(env)
         super
         # Perform the request and call `save_response`
@@ -32,7 +32,7 @@ Now, there are only two things which are actually mandatory for an adapter middl
 
 These are the only two things, the rest of this text is about methods which make the authoring easier.
 
-Like any other middleware, the `env` parameter passed to `#call` is an instance of [Faraday::Env][env-object].
+Like any other middleware, the `env` parameter passed to `#call` is an instance of [Faraknight::Env][env-object].
 This object will contain all the information about the request, as well as the configuration of the connection.
 Your adapter is expected to deal with SSL and Proxy settings, as well as any other configuration options.
 
@@ -42,14 +42,14 @@ Users of your adapter have two main ways of configuring it:
 * connection options: these can be passed to your adapter initializer and are automatically stored into an instance variable `@connection_options`.
 * configuration block: this can also be provided to your adapter initializer and it's stored into an instance variable `@config_block`.
 
-Both of these are automatically managed by `Faraday::Adapter#initialize`, so remember to call it with `super` if you create an `initialize` method in your adapter.
+Both of these are automatically managed by `Faraknight::Adapter#initialize`, so remember to call it with `super` if you create an `initialize` method in your adapter.
 You can then use them in your adapter code as you wish, since they're pretty flexible.
 
 Below is an example of how they can be used:
 
 ```ruby
 # You can use @connection_options and @config_block in your adapter code
-class FlorpHttp < Faraday::Adapter
+class FlorpHttp < Faraknight::Adapter
   def call(env)
     # `connection` internally calls `build_connection` and yields the result
     connection do |conn|
@@ -65,12 +65,12 @@ class FlorpHttp < Faraday::Adapter
 end
 
 # Then your users can provide them when initializing the connection
-Faraday.new(...) do |f|
+Faraknight.new(...) do |f|
   # ...
   # in this example, { pool_size: 5 } will be provided as `connection_options`
   f.adapter :florp_http, pool_size: 5 do |client|
     # this block is useful to set properties unique to HTTP clients that are not
-    # manageable through the Faraday API
+    # manageable through the Faraknight API
     client.some_fancy_florp_http_property = 10
   end
 end
@@ -82,7 +82,7 @@ Just like middleware, adapters can implement a `#close` method. It will be calle
 In this method, you should close any resources that you opened in `#initialize` or `#call`, like sockets or files.
 
 ```ruby
-class FlorpHttp < Faraday::Adapter
+class FlorpHttp < Faraknight::Adapter
   def close
     @socket.close if @socket
   end
@@ -91,7 +91,7 @@ end
 
 ## Helper methods
 
-`Faraday::Adapter` provides some helper methods to make it easier to implement adapters.
+`Faraknight::Adapter` provides some helper methods to make it easier to implement adapters.
 
 ### `#save_response`
 
@@ -103,7 +103,7 @@ This method is responsible for, among other things, the following:
 * Call `#finish` on the `Response` object, triggering the `#on_complete` callbacks in the middleware stack.
 
 ```ruby
-class FlorpHttp < Faraday::Adapter
+class FlorpHttp < Faraknight::Adapter
   def call(env)
     super
     # Perform the request using FlorpHttp.
@@ -121,13 +121,13 @@ if you don't want it to call `#finish` on the `Response` object.
 ### `#request_timeout`
 
 Most HTTP libraries support different types of timeouts, like `:open_timeout`, `:read_timeout` and `:write_timeout`.
-Faraday let you set individual values for each of these, as well as a more generic `:timeout` value on the request options.
+Faraknight let you set individual values for each of these, as well as a more generic `:timeout` value on the request options.
 
 This helper method knows about supported timeout types, and falls back to `:timeout` if they are not set.
 You can use those when building the options you need for your backend's instantiation.
 
 ```ruby
-class FlorpHttp < Faraday::Adapter
+class FlorpHttp < Faraknight::Adapter
   def call(env)
     super
     # Perform the request using FlorpHttp.
@@ -148,14 +148,14 @@ end
 
 Like middleware, you may register a nickname for your adapter.
 People can then refer to your adapter with that name when initializing their connection.
-You do that using `Faraday::Adapter.register_middleware`, like this:
+You do that using `Faraknight::Adapter.register_middleware`, like this:
 
 ```ruby
-class FlorpHttp < Faraday::Adapter
+class FlorpHttp < Faraknight::Adapter
   # ...
 end
 
-Faraday::Adapter.register_middleware(florp_http: FlorpHttp)
+Faraknight::Adapter.register_middleware(florp_http: FlorpHttp)
 ```
 
 [env-object]: /getting-started/env-object.md

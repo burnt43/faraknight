@@ -12,7 +12,7 @@ This example implements such a callback:
 # A buffer to store the streamed data
 streamed = []
 
-conn = Faraday.new('http://httpbingo.org')
+conn = Faraknight.new('http://httpbingo.org')
 conn.get('/stream/100') do |req|
   # Set a callback which will receive tuples of chunk Strings,
   # the sum of characters received so far, and the response environment.
@@ -28,7 +28,7 @@ streamed.join
 ```
 
 The `on_data` streaming is currently only supported by some adapters.
-To see which ones, please refer to [Awesome Faraday][awesome] comparative table or check the adapter documentation.
+To see which ones, please refer to [Awesome Faraknight][awesome] comparative table or check the adapter documentation.
 Moreover, the `env` parameter was only recently added, which means some adapters may only have partial support
 (i.e. only `chunk` and `overall_received_bytes` will be passed to your block).
 

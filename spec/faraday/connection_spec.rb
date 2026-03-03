@@ -38,42 +38,42 @@ shared_examples 'initializer with url' do
 end
 
 shared_examples 'default connection options' do
-  after { Faraday.default_connection_options = nil }
+  after { Faraknight.default_connection_options = nil }
 
   it 'works with implicit url' do
-    conn = Faraday.new 'http://httpbingo.org/foo'
+    conn = Faraknight.new 'http://httpbingo.org/foo'
     expect(conn.options.timeout).to eq(10)
   end
 
   it 'works with option url' do
-    conn = Faraday.new url: 'http://httpbingo.org/foo'
+    conn = Faraknight.new url: 'http://httpbingo.org/foo'
     expect(conn.options.timeout).to eq(10)
   end
 
   it 'works with instance connection options' do
-    conn = Faraday.new 'http://httpbingo.org/foo', request: { open_timeout: 1 }
+    conn = Faraknight.new 'http://httpbingo.org/foo', request: { open_timeout: 1 }
     expect(conn.options.timeout).to eq(10)
     expect(conn.options.open_timeout).to eq(1)
   end
 
   it 'default connection options persist with an instance overriding' do
-    conn = Faraday.new 'http://nigiri.com/bar'
+    conn = Faraknight.new 'http://nigiri.com/bar'
     conn.options.timeout = 1
-    expect(Faraday.default_connection_options.request.timeout).to eq(10)
+    expect(Faraknight.default_connection_options.request.timeout).to eq(10)
 
-    other = Faraday.new url: 'https://httpbingo.org/foo'
+    other = Faraknight.new url: 'https://httpbingo.org/foo'
     other.options.timeout = 1
 
-    expect(Faraday.default_connection_options.request.timeout).to eq(10)
+    expect(Faraknight.default_connection_options.request.timeout).to eq(10)
   end
 
   it 'default connection uses default connection options' do
-    expect(Faraday.default_connection.options.timeout).to eq(10)
+    expect(Faraknight.default_connection.options.timeout).to eq(10)
   end
 end
 
-RSpec.describe Faraday::Connection do
-  let(:conn) { Faraday::Connection.new(url, options) }
+RSpec.describe Faraknight::Connection do
+  let(:conn) { Faraknight::Connection.new(url, options) }
   let(:url) { nil }
   let(:options) { nil }
 
@@ -81,21 +81,21 @@ RSpec.describe Faraday::Connection do
     subject { conn }
 
     context 'with implicit url param' do
-      # Faraday::Connection.new('http://httpbingo.org')
+      # Faraknight::Connection.new('http://httpbingo.org')
       let(:url) { address }
 
       it_behaves_like 'initializer with url'
     end
 
     context 'with explicit url param' do
-      # Faraday::Connection.new(url: 'http://httpbingo.org')
+      # Faraknight::Connection.new(url: 'http://httpbingo.org')
       let(:url) { { url: address } }
 
       it_behaves_like 'initializer with url'
     end
 
     context 'with custom builder' do
-      let(:custom_builder) { Faraday::RackBuilder.new }
+      let(:custom_builder) { Faraknight::RackBuilder.new }
       let(:options) { { builder: custom_builder } }
 
       it { expect(subject.builder).to eq(custom_builder) }
@@ -120,9 +120,9 @@ RSpec.describe Faraday::Connection do
     end
 
     context 'with custom headers' do
-      let(:options) { { headers: { user_agent: 'Faraday' } } }
+      let(:options) { { headers: { user_agent: 'Faraknight' } } }
 
-      it { expect(subject.headers['User-agent']).to eq('Faraday') }
+      it { expect(subject.headers['User-agent']).to eq('Faraknight') }
     end
 
     context 'with ssl false' do
@@ -138,14 +138,14 @@ RSpec.describe Faraday::Connection do
     end
 
     context 'with empty block' do
-      let(:conn) { Faraday::Connection.new {} }
+      let(:conn) { Faraknight::Connection.new {} }
 
       it { expect(conn.builder.handlers.size).to eq(0) }
     end
 
     context 'with block' do
       let(:conn) do
-        Faraday::Connection.new(params: { 'a' => '1' }) do |faraday|
+        Faraknight::Connection.new(params: { 'a' => '1' }) do |faraday|
           faraday.adapter :test
           faraday.url_prefix = 'http://httpbingo.org/omnom'
         end
@@ -157,8 +157,8 @@ RSpec.describe Faraday::Connection do
   end
 
   describe '#close' do
-    before { Faraday.default_adapter = :test }
-    after { Faraday.default_adapter = nil }
+    before { Faraknight.default_adapter = :test }
+    after { Faraknight.default_adapter = nil }
 
     it 'can close underlying app' do
       expect(conn.app).to receive(:close)
@@ -245,7 +245,7 @@ RSpec.describe Faraday::Connection do
     it 'allows to provide params argument' do
       conn.url_prefix = 'http://httpbingo.org/nigiri'
       conn.params = { a: 1 }
-      params = Faraday::Utils::ParamsHash.new
+      params = Faraknight::Utils::ParamsHash.new
       params[:a] = 2
       uri = conn.build_exclusive_url(nil, params)
       expect(uri.to_s).to eq('http://httpbingo.org/nigiri?a=2')
@@ -292,19 +292,19 @@ RSpec.describe Faraday::Connection do
       let(:url) { 'http://service.com' }
 
       it 'joins url to base when used absolute path' do
-        conn = Faraday.new(url: url)
+        conn = Faraknight.new(url: url)
         uri = conn.build_exclusive_url('/service:search?limit=400')
         expect(uri.to_s).to eq('http://service.com/service:search?limit=400')
       end
 
       it 'joins url to base when used relative path' do
-        conn = Faraday.new(url: url)
+        conn = Faraknight.new(url: url)
         uri = conn.build_exclusive_url('service:search?limit=400')
         expect(uri.to_s).to eq('http://service.com/service:search?limit=400')
       end
 
       it 'joins url to base when used with path prefix' do
-        conn = Faraday.new(url: url)
+        conn = Faraknight.new(url: url)
         conn.path_prefix = '/api'
         uri = conn.build_exclusive_url('service:search?limit=400')
         expect(uri.to_s).to eq('http://service.com/api/service:search?limit=400')
@@ -418,7 +418,7 @@ RSpec.describe Faraday::Connection do
 
     it 'without braketizing repeated params in query' do
       @params = { 'a' => [1, 2] }
-      conn.options.params_encoder = Faraday::FlatParamsEncoder
+      conn.options.params_encoder = Faraknight::FlatParamsEncoder
       expect(subject.query).to eq('a=1&a=2')
     end
   end
@@ -495,14 +495,14 @@ RSpec.describe Faraday::Connection do
 
     it 'allows when url in no proxy list' do
       with_env 'http_proxy' => 'http://proxy.com', 'no_proxy' => 'example.com' do
-        conn = Faraday::Connection.new('http://example.com')
+        conn = Faraknight::Connection.new('http://example.com')
         expect(conn.proxy).to be_nil
       end
     end
 
     it 'allows when url in no proxy list with url_prefix' do
       with_env 'http_proxy' => 'http://proxy.com', 'no_proxy' => 'example.com' do
-        conn = Faraday::Connection.new
+        conn = Faraknight::Connection.new
         conn.url_prefix = 'http://example.com'
         expect(conn.proxy).to be_nil
       end
@@ -510,45 +510,45 @@ RSpec.describe Faraday::Connection do
 
     it 'allows when prefixed url is not in no proxy list' do
       with_env 'http_proxy' => 'http://proxy.com', 'no_proxy' => 'example.com' do
-        conn = Faraday::Connection.new('http://prefixedexample.com')
+        conn = Faraknight::Connection.new('http://prefixedexample.com')
         expect(conn.proxy.host).to eq('proxy.com')
       end
     end
 
     it 'allows when subdomain url is in no proxy list' do
       with_env 'http_proxy' => 'http://proxy.com', 'no_proxy' => 'example.com' do
-        conn = Faraday::Connection.new('http://subdomain.example.com')
+        conn = Faraknight::Connection.new('http://subdomain.example.com')
         expect(conn.proxy).to be_nil
       end
     end
 
     it 'allows when url not in no proxy list' do
       with_env 'http_proxy' => 'http://proxy.com', 'no_proxy' => 'example2.com' do
-        conn = Faraday::Connection.new('http://example.com')
+        conn = Faraknight::Connection.new('http://example.com')
         expect(conn.proxy.host).to eq('proxy.com')
       end
     end
 
     it 'allows when ip address is not in no proxy list but url is' do
       with_env 'http_proxy' => 'http://proxy.com', 'no_proxy' => 'localhost' do
-        conn = Faraday::Connection.new('http://127.0.0.1')
+        conn = Faraknight::Connection.new('http://127.0.0.1')
         expect(conn.proxy).to be_nil
       end
     end
 
     it 'allows when url is not in no proxy list but ip address is' do
       with_env 'http_proxy' => 'http://proxy.com', 'no_proxy' => '127.0.0.1' do
-        conn = Faraday::Connection.new('http://localhost')
+        conn = Faraknight::Connection.new('http://localhost')
         expect(conn.proxy).to be_nil
       end
     end
 
     it 'allows in multi element no proxy list' do
       with_env 'http_proxy' => 'http://proxy.com', 'no_proxy' => 'example0.com,example.com,example1.com' do
-        expect(Faraday::Connection.new('http://example0.com').proxy).to be_nil
-        expect(Faraday::Connection.new('http://example.com').proxy).to be_nil
-        expect(Faraday::Connection.new('http://example1.com').proxy).to be_nil
-        expect(Faraday::Connection.new('http://example2.com').proxy.host).to eq('proxy.com')
+        expect(Faraknight::Connection.new('http://example0.com').proxy).to be_nil
+        expect(Faraknight::Connection.new('http://example.com').proxy).to be_nil
+        expect(Faraknight::Connection.new('http://example1.com').proxy).to be_nil
+        expect(Faraknight::Connection.new('http://example2.com').proxy.host).to eq('proxy.com')
       end
     end
 
@@ -558,7 +558,7 @@ RSpec.describe Faraday::Connection do
 
     it 'uses env http_proxy' do
       with_env 'http_proxy' => 'http://proxy.com' do
-        conn = Faraday.new
+        conn = Faraknight.new
         expect(conn.instance_variable_get(:@manual_proxy)).to be_falsey
         expect(conn.proxy_for_request('http://google.co.uk').host).to eq('proxy.com')
       end
@@ -566,7 +566,7 @@ RSpec.describe Faraday::Connection do
 
     it 'uses processes no_proxy before http_proxy' do
       with_env 'http_proxy' => 'http://proxy.com', 'no_proxy' => 'google.co.uk' do
-        conn = Faraday.new
+        conn = Faraknight.new
         expect(conn.instance_variable_get(:@manual_proxy)).to be_falsey
         expect(conn.proxy_for_request('http://google.co.uk')).to be_nil
       end
@@ -574,7 +574,7 @@ RSpec.describe Faraday::Connection do
 
     it 'uses env https_proxy' do
       with_env 'https_proxy' => 'https://proxy.com' do
-        conn = Faraday.new
+        conn = Faraknight.new
         expect(conn.instance_variable_get(:@manual_proxy)).to be_falsey
         expect(conn.proxy_for_request('https://google.co.uk').host).to eq('proxy.com')
       end
@@ -582,7 +582,7 @@ RSpec.describe Faraday::Connection do
 
     it 'uses processes no_proxy before https_proxy' do
       with_env 'https_proxy' => 'https://proxy.com', 'no_proxy' => 'google.co.uk' do
-        conn = Faraday.new
+        conn = Faraknight.new
         expect(conn.instance_variable_get(:@manual_proxy)).to be_falsey
         expect(conn.proxy_for_request('https://google.co.uk')).to be_nil
       end
@@ -590,7 +590,7 @@ RSpec.describe Faraday::Connection do
 
     it 'gives priority to manually set proxy' do
       with_env 'https_proxy' => 'https://proxy.com', 'no_proxy' => 'google.co.uk' do
-        conn = Faraday.new
+        conn = Faraknight.new
         conn.proxy = 'http://proxy2.com'
 
         expect(conn.instance_variable_get(:@manual_proxy)).to be_truthy
@@ -609,7 +609,7 @@ RSpec.describe Faraday::Connection do
     context 'performing a request' do
       let(:url) { 'http://example.com' }
       let(:conn) do
-        Faraday.new do |f|
+        Faraknight.new do |f|
           f.adapter :test do |stubs|
             stubs.get(url) do
               [200, {}, 'ok']
@@ -677,42 +677,42 @@ RSpec.describe Faraday::Connection do
   end
 
   describe '#respond_to?' do
-    it { expect(Faraday.respond_to?(:get)).to be_truthy }
-    it { expect(Faraday.respond_to?(:post)).to be_truthy }
+    it { expect(Faraknight.respond_to?(:get)).to be_truthy }
+    it { expect(Faraknight.respond_to?(:post)).to be_truthy }
   end
 
   describe 'default_connection_options' do
     context 'assigning a default value' do
       before do
-        Faraday.default_connection_options = nil
-        Faraday.default_connection_options.request.timeout = 10
+        Faraknight.default_connection_options = nil
+        Faraknight.default_connection_options.request.timeout = 10
       end
 
       it_behaves_like 'default connection options'
     end
 
     context 'assigning a hash' do
-      before { Faraday.default_connection_options = { request: { timeout: 10 } } }
+      before { Faraknight.default_connection_options = { request: { timeout: 10 } } }
 
       it_behaves_like 'default connection options'
     end
 
     context 'preserving a user_agent assigned via default_conncetion_options' do
       around do |example|
-        old = Faraday.default_connection_options
-        Faraday.default_connection_options = { headers: { user_agent: 'My Agent 1.2' } }
+        old = Faraknight.default_connection_options
+        Faraknight.default_connection_options = { headers: { user_agent: 'My Agent 1.2' } }
         example.run
-        Faraday.default_connection_options = old
+        Faraknight.default_connection_options = old
       end
 
       context 'when url is a Hash' do
-        let(:conn) { Faraday.new(url: 'http://example.co', headers: { 'CustomHeader' => 'CustomValue' }) }
+        let(:conn) { Faraknight.new(url: 'http://example.co', headers: { 'CustomHeader' => 'CustomValue' }) }
 
         it { expect(conn.headers).to eq('CustomHeader' => 'CustomValue', 'User-Agent' => 'My Agent 1.2') }
       end
 
       context 'when url is a String' do
-        let(:conn) { Faraday.new('http://example.co', headers: { 'CustomHeader' => 'CustomValue' }) }
+        let(:conn) { Faraknight.new('http://example.co', headers: { 'CustomHeader' => 'CustomValue' }) }
 
         it { expect(conn.headers).to eq('CustomHeader' => 'CustomValue', 'User-Agent' => 'My Agent 1.2') }
       end
@@ -722,7 +722,7 @@ RSpec.describe Faraday::Connection do
   describe 'request params' do
     context 'with simple url' do
       let(:url) { 'http://example.com' }
-      let(:stubs) { Faraday::Adapter::Test::Stubs.new }
+      let(:stubs) { Faraknight::Adapter::Test::Stubs.new }
 
       before do
         conn.adapter(:test, stubs)
@@ -753,7 +753,7 @@ RSpec.describe Faraday::Connection do
     context 'with url and extra params' do
       let(:url) { 'http://example.com?a=1&b=2' }
       let(:options) { { params: { c: 3 } } }
-      let(:stubs) { Faraday::Adapter::Test::Stubs.new }
+      let(:stubs) { Faraknight::Adapter::Test::Stubs.new }
 
       before do
         conn.adapter(:test, stubs)
@@ -792,7 +792,7 @@ RSpec.describe Faraday::Connection do
     end
 
     context 'with default params encoder' do
-      let(:stubs) { Faraday::Adapter::Test::Stubs.new }
+      let(:stubs) { Faraknight::Adapter::Test::Stubs.new }
 
       before do
         conn.adapter(:test, stubs)
@@ -813,8 +813,8 @@ RSpec.describe Faraday::Connection do
     end
 
     context 'with flat params encoder' do
-      let(:options) { { request: { params_encoder: Faraday::FlatParamsEncoder } } }
-      let(:stubs) { Faraday::Adapter::Test::Stubs.new }
+      let(:options) { { request: { params_encoder: Faraknight::FlatParamsEncoder } } }
+      let(:stubs) { Faraknight::Adapter::Test::Stubs.new }
 
       before do
         conn.adapter(:test, stubs)

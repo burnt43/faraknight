@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Faraday
+module Faraknight
   # Sub-module for encoding parameters into query-string.
   module EncodeMethods
     # @param params [nil, Array, #to_hash] parameters to be encoded
@@ -161,7 +161,7 @@ module Faraday
     end
   end
 
-  # This is the default encoder for Faraday requests.
+  # This is the default encoder for Faraknight requests.
   # Using this encoder, parameters will be encoded respecting their structure,
   # so you can send objects such as Arrays or Hashes as parameters
   # for your requests.
@@ -171,7 +171,7 @@ module Faraday
 
       extend Forwardable
 
-      def_delegators :'Faraday::Utils', :escape, :unescape
+      def_delegators :'Faraknight::Utils', :escape, :unescape
     end
 
     # Useful default for OAuth and caching.

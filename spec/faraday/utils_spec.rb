@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::Utils do
+RSpec.describe Faraknight::Utils do
   describe 'headers parsing' do
     let(:multi_response_headers) do
       "HTTP/1.x 500 OK\r\nContent-Type: text/html; charset=UTF-8\r\n" \
@@ -8,7 +8,7 @@ RSpec.describe Faraday::Utils do
     end
 
     it 'parse headers for aggregated responses' do
-      headers = Faraday::Utils::Headers.new
+      headers = Faraknight::Utils::Headers.new
       headers.parse(multi_response_headers)
 
       result = headers.to_hash
@@ -22,7 +22,7 @@ RSpec.describe Faraday::Utils do
 
     it 'escapes safe buffer' do
       str = FakeSafeBuffer.new('$32,000.00')
-      expect(Faraday::Utils.escape(str)).to eq('%2432%2C000.00')
+      expect(Faraknight::Utils.escape(str)).to eq('%2432%2C000.00')
     end
 
     it 'parses with default parser' do
@@ -46,7 +46,7 @@ RSpec.describe Faraday::Utils do
     end
 
     it 'replaces headers hash' do
-      headers = Faraday::Utils::Headers.new('authorization' => 't0ps3cr3t!')
+      headers = Faraknight::Utils::Headers.new('authorization' => 't0ps3cr3t!')
       expect(headers).to have_key('authorization')
 
       headers.replace('content-type' => 'text/plain')
@@ -55,7 +55,7 @@ RSpec.describe Faraday::Utils do
   end
 
   describe '.deep_merge!' do
-    let(:connection_options) { Faraday::ConnectionOptions.new }
+    let(:connection_options) { Faraknight::ConnectionOptions.new }
     let(:url) do
       {
         url: 'http://example.com/abc',
@@ -67,7 +67,7 @@ RSpec.describe Faraday::Utils do
 
     it 'recursively merges the headers' do
       connection_options.headers = { user_agent: 'My Agent 1.0' }
-      deep_merge = Faraday::Utils.deep_merge!(connection_options, url)
+      deep_merge = Faraknight::Utils.deep_merge!(connection_options, url)
 
       expect(deep_merge.headers).to eq('Mime-Version' => '1.0', user_agent: 'My Agent 1.0')
     end
@@ -110,7 +110,7 @@ RSpec.describe Faraday::Utils do
       end
 
       it 'does not overwrite an Options Struct value' do
-        deep_merge = Faraday::Utils.deep_merge!(connection_options, url)
+        deep_merge = Faraknight::Utils.deep_merge!(connection_options, url)
 
         expect(deep_merge.request.to_h).to eq(request)
         expect(deep_merge.ssl.to_h).to eq(ssl)

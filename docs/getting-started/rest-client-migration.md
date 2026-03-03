@@ -1,4 +1,4 @@
-# Migrating from `rest-client` to `Faraday`
+# Migrating from `rest-client` to `Faraknight`
 
 The `rest-client` gem is in maintenance mode, and developers are encouraged to migrate to actively maintained alternatives like [`faraday`](https://github.com/lostisland/faraday). This guide highlights common usage patterns in `rest-client` and how to migrate them to `faraday`.
 
@@ -8,11 +8,11 @@ The `rest-client` gem is in maintenance mode, and developers are encouraged to m
 
 | Task              | rest-client example                                      | faraday example                                                            |
 | ----------------- | -------------------------------------------------------- | -------------------------------------------------------------------------- |
-| Simple GET        | `RestClient.get("https://httpbingo.org/get")`            | `Faraday.get("https://httpbingo.org/get")`                                 |
-| GET with params   | `RestClient.get(url, params: { id: 1 })`                 | `Faraday.get(url, { id: 1 })`                                              |
-| POST form data    | `RestClient.post(url, { a: 1 })`                         | `Faraday.post(url, { a: 1 })`                                              |
-| POST JSON         | `RestClient.post(url, obj.to_json, content_type: :json)` | `Faraday.post(url, obj.to_json, { 'Content-Type' => 'application/json' })` |
-| Custom headers    | `RestClient.get(url, { Authorization: 'Bearer token' })` | `Faraday.get(url, nil, { 'Authorization' => 'Bearer token' })`             |
+| Simple GET        | `RestClient.get("https://httpbingo.org/get")`            | `Faraknight.get("https://httpbingo.org/get")`                                 |
+| GET with params   | `RestClient.get(url, params: { id: 1 })`                 | `Faraknight.get(url, { id: 1 })`                                              |
+| POST form data    | `RestClient.post(url, { a: 1 })`                         | `Faraknight.post(url, { a: 1 })`                                              |
+| POST JSON         | `RestClient.post(url, obj.to_json, content_type: :json)` | `Faraknight.post(url, obj.to_json, { 'Content-Type' => 'application/json' })` |
+| Custom headers    | `RestClient.get(url, { Authorization: 'Bearer token' })` | `Faraknight.get(url, nil, { 'Authorization' => 'Bearer token' })`             |
 | Get response body | `response.body`                                          | `response.body`                                                            |
 | Get status code   | `response.code`                                          | `response.status`                                                          |
 | Get headers       | `response.headers` (returns `Hash<Symbol, String>`)      | `response.headers` (returns `Hash<String, String>`)                        |
@@ -48,7 +48,7 @@ RestClient.get("https://httpbingo.org/get")
 **faraday:**
 
 ```ruby
-Faraday.get("https://httpbingo.org/get")
+Faraknight.get("https://httpbingo.org/get")
 ```
 
 ---
@@ -64,7 +64,7 @@ RestClient.get("https://httpbingo.org/get", params: { id: 1, foo: "bar" })
 **faraday:**
 
 ```ruby
-Faraday.get("https://httpbingo.org/get", { id: 1, foo: "bar" })
+Faraknight.get("https://httpbingo.org/get", { id: 1, foo: "bar" })
 ```
 
 ---
@@ -80,7 +80,7 @@ RestClient.post("https://httpbingo.org/post", { foo: "bar" })
 **faraday:**
 
 ```ruby
-Faraday.post("https://httpbingo.org/post", { foo: "bar" })
+Faraknight.post("https://httpbingo.org/post", { foo: "bar" })
 ```
 
 ---
@@ -96,13 +96,13 @@ RestClient.post("https://httpbingo.org/post", { foo: "bar" }.to_json, content_ty
 **faraday (manual):**
 
 ```ruby
-Faraday.post("https://httpbingo.org/post", { foo: "bar" }.to_json, { 'Content-Type' => 'application/json' })
+Faraknight.post("https://httpbingo.org/post", { foo: "bar" }.to_json, { 'Content-Type' => 'application/json' })
 ```
 
 **faraday (with middleware):**
 
 ```ruby
-conn = Faraday.new(url: "https://httpbingo.org") do |f|
+conn = Faraknight.new(url: "https://httpbingo.org") do |f|
   f.request :json            # encode request body as JSON and set Content-Type
   f.response :json           # parse response body as JSON
 end
@@ -128,7 +128,7 @@ response.headers # => { content_type: "application/json", ... }
 > notice headers Hash keys are stringified, not symbolized like in rest-client
 
 ```ruby
-response = Faraday.get("https://httpbingo.org/headers")
+response = Faraknight.get("https://httpbingo.org/headers")
 response.status     # => 200
 response.body       # => "..."
 response.headers    # => { "content-type" => "application/json", ... }
@@ -150,9 +150,9 @@ end
 
 **faraday:**
 
-> By default, Faraday does **not** raise exceptions for HTTP errors (like 404 or 500); it simply returns the response. If you want exceptions to be raised on HTTP error responses, include the `:raise_error` middleware.
+> By default, Faraknight does **not** raise exceptions for HTTP errors (like 404 or 500); it simply returns the response. If you want exceptions to be raised on HTTP error responses, include the `:raise_error` middleware.
 >
-> With `:raise_error`, Faraday will raise `Faraday::ResourceNotFound` for 404s and other exceptions for other 4xx/5xx responses.
+> With `:raise_error`, Faraknight will raise `Faraknight::ResourceNotFound` for 404s and other exceptions for other 4xx/5xx responses.
 >
 > See also:
 >
@@ -160,13 +160,13 @@ end
 > * [Raising Errors](middleware/included/raising-errors.md)
 
 ```ruby
-conn = Faraday.new(url: "https://httpbingo.org") do |f|
+conn = Faraknight.new(url: "https://httpbingo.org") do |f|
   f.response :raise_error
 end
 
 begin
   conn.get("/status/404")
-rescue Faraday::ResourceNotFound => e
+rescue Faraknight::ResourceNotFound => e
   puts e.response[:status]  # 404
 end
 ```
@@ -184,7 +184,7 @@ RestClient::Request.execute(method: :get, url: "https://httpbingo.org/get", time
 **faraday:**
 
 ```ruby
-conn = Faraday.new(url: "https://httpbingo.org", request: { timeout: 10 })
+conn = Faraknight.new(url: "https://httpbingo.org", request: { timeout: 10 })
 conn.get("/get")
 ```
 
@@ -203,7 +203,7 @@ RestClient.get("https://httpbingo.org/headers", { Authorization: "Bearer token" 
 > Notice headers Hash expects stringified keys.
 
 ```ruby
-Faraday.get("https://httpbingo.org/headers", nil, { "Authorization" => "Bearer token" })
+Faraknight.get("https://httpbingo.org/headers", nil, { "Authorization" => "Bearer token" })
 ```
 
 ---
@@ -219,7 +219,7 @@ Use the `follow_redirects` middleware (not included by default):
 ```ruby
 require "faraday/follow_redirects"
 
-conn = Faraday.new(url: "https://httpbingo.org") do |f|
+conn = Faraknight.new(url: "https://httpbingo.org") do |f|
   f.response :follow_redirects
 end
 ```

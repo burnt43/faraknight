@@ -2,11 +2,11 @@
 
 require 'timeout'
 
-module Faraday
+module Faraknight
   class Adapter
     # @example
-    #   test = Faraday::Connection.new do
-    #     use Faraday::Adapter::Test do |stub|
+    #   test = Faraknight::Connection.new do
+    #     use Faraknight::Adapter::Test do |stub|
     #       # Define matcher to match the request
     #       stub.get '/resource.json' do
     #         # return static content
@@ -59,7 +59,7 @@ module Faraday
     #
     #   resp = test.post '/foo', JSON.dump(name: 'YK', created_at: Time.now)
     #   resp.status # => 200
-    class Test < Faraday::Adapter
+    class Test < Faraknight::Adapter
       attr_accessor :stubs
 
       # A stack of Stubs
@@ -80,7 +80,7 @@ module Faraday
           @stack.empty?
         end
 
-        # @param env [Faraday::Env]
+        # @param env [Faraknight::Env]
         def match(env)
           request_method = env[:method]
           return false unless @stack.key?(request_method)
@@ -161,8 +161,8 @@ module Faraday
               path
             else
               [
-                Faraday::Utils.normalize_path(path),
-                Faraday::Utils.URI(path).host
+                Faraknight::Utils.normalize_path(path),
+                Faraknight::Utils.URI(path).host
               ]
             end
           path, query = normalized_path.respond_to?(:split) ? normalized_path.split('?') : normalized_path
@@ -173,7 +173,7 @@ module Faraday
         end
 
         # @param stack [Hash]
-        # @param env [Faraday::Env]
+        # @param env [Faraknight::Env]
         def matches?(stack, env)
           stack.each do |stub|
             match_result, meta = stub.matches?(env)
@@ -185,10 +185,10 @@ module Faraday
 
       # Stub request
       Stub = Struct.new(:host, :path, :query, :headers, :body, :strict_mode, :block) do
-        # @param env [Faraday::Env]
+        # @param env [Faraknight::Env]
         def matches?(env)
           request_host = env[:url].host
-          request_path = Faraday::Utils.normalize_path(env[:url].path)
+          request_path = Faraknight::Utils.normalize_path(env[:url].path)
           request_headers = env.request_headers
           request_body = env[:body]
 
@@ -210,7 +210,7 @@ module Faraday
           end
         end
 
-        # @param env [Faraday::Env]
+        # @param env [Faraknight::Env]
         def params_match?(env)
           request_params = env[:params]
           params = env.params_encoder.decode(query) || {}
@@ -228,7 +228,7 @@ module Faraday
           if strict_mode
             headers_with_user_agent = headers.dup.tap do |hs|
               # NOTE: Set User-Agent in case it's not set when creating Stubs.
-              #       Users would not want to set Faraday's User-Agent explicitly.
+              #       Users would not want to set Faraknight's User-Agent explicitly.
               hs[:user_agent] ||= Connection::USER_AGENT
             end
             return Set.new(headers_with_user_agent) == Set.new(request_headers)
@@ -265,11 +265,11 @@ module Faraday
         yield(stubs)
       end
 
-      # @param env [Faraday::Env]
+      # @param env [Faraknight::Env]
       def call(env)
         super
 
-        env.request.params_encoder ||= Faraday::Utils.default_params_encoder
+        env.request.params_encoder ||= Faraknight::Utils.default_params_encoder
         env[:params] = env.params_encoder.decode(env[:url].query) || {}
         stub, meta = stubs.match(env)
 
@@ -290,7 +290,7 @@ module Faraday
 
         status, headers, body =
           if timeout
-            ::Timeout.timeout(timeout, Faraday::TimeoutError) do
+            ::Timeout.timeout(timeout, Faraknight::TimeoutError) do
               stub.block.call(*params)
             end
           else
@@ -308,4 +308,4 @@ module Faraday
   end
 end
 
-Faraday::Adapter.register_middleware(test: Faraday::Adapter::Test)
+Faraknight::Adapter.register_middleware(test: Faraknight::Adapter::Test)

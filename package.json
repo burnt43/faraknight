@@ -1,7 +1,7 @@
 {
   "name": "faraday-docs",
   "version": "0.1.0",
-  "description": "Faraday Docs",
+  "description": "Faraknight Docs",
   "main": "index.js",
   "directories": {
     "doc": "docs",

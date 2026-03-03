@@ -2,22 +2,22 @@
 
 require 'faraday/adapter_registry'
 
-module Faraday
+module Faraknight
   # A Builder that processes requests into responses by passing through an inner
   # middleware stack (heavily inspired by Rack).
   #
   # @example
-  #   Faraday::Connection.new(url: 'http://httpbingo.org') do |builder|
-  #     builder.request  :url_encoded  # Faraday::Request::UrlEncoded
-  #     builder.adapter  :net_http     # Faraday::Adapter::NetHttp
+  #   Faraknight::Connection.new(url: 'http://httpbingo.org') do |builder|
+  #     builder.request  :url_encoded  # Faraknight::Request::UrlEncoded
+  #     builder.adapter  :net_http     # Faraknight::Adapter::NetHttp
   #   end
   class RackBuilder
     # Used to detect missing arguments
     NO_ARGUMENT = Object.new
 
     LOCK_ERR = "can't modify middleware stack after making a request"
-    MISSING_ADAPTER_ERROR = "An attempt to run a request with a Faraday::Connection without adapter has been made.\n" \
-                            "Please set Faraday.default_adapter or provide one when initializing the connection.\n" \
+    MISSING_ADAPTER_ERROR = "An attempt to run a request with a Faraknight::Connection without adapter has been made.\n" \
+                            "Please set Faraknight.default_adapter or provide one when initializing the connection.\n" \
                             'For more info, check https://lostisland.github.io/faraday/usage/.'
 
     attr_accessor :handlers
@@ -28,7 +28,7 @@ module Faraday
     # borrowed from ActiveSupport::Dependencies::Reference &
     # ActionDispatch::MiddlewareStack::Middleware
     class Handler
-      REGISTRY = Faraday::AdapterRegistry.new
+      REGISTRY = Faraknight::AdapterRegistry.new
 
       attr_reader :name
 
@@ -78,7 +78,7 @@ module Faraday
     def build
       raise_if_locked
       block_given? ? yield(self) : request(:url_encoded)
-      adapter(Faraday.default_adapter, **Faraday.default_adapter_options) unless @adapter
+      adapter(Faraknight.default_adapter, **Faraknight.default_adapter_options) unless @adapter
     end
 
     def [](idx)
@@ -96,7 +96,7 @@ module Faraday
 
     def use(klass, ...)
       if klass.is_a? Symbol
-        use_symbol(Faraday::Middleware, klass, ...)
+        use_symbol(Faraknight::Middleware, klass, ...)
       else
         raise_if_locked
         raise_if_adapter(klass)
@@ -105,17 +105,17 @@ module Faraday
     end
 
     def request(key, ...)
-      use_symbol(Faraday::Request, key, ...)
+      use_symbol(Faraknight::Request, key, ...)
     end
 
     def response(...)
-      use_symbol(Faraday::Response, ...)
+      use_symbol(Faraknight::Response, ...)
     end
 
     def adapter(klass = NO_ARGUMENT, *args, **kwargs, &block)
       return @adapter if klass == NO_ARGUMENT || klass.nil?
 
-      klass = Faraday::Adapter.lookup_middleware(klass) if klass.is_a?(Symbol)
+      klass = Faraknight::Adapter.lookup_middleware(klass) if klass.is_a?(Symbol)
       @adapter = self.class::Handler.new(klass, *args, **kwargs, &block)
     end
 
@@ -150,10 +150,10 @@ module Faraday
     # Processes a Request into a Response by passing it through this Builder's
     # middleware stack.
     #
-    # @param connection [Faraday::Connection]
-    # @param request [Faraday::Request]
+    # @param connection [Faraknight::Connection]
+    # @param request [Faraknight::Request]
     #
-    # @return [Faraday::Response]
+    # @return [Faraknight::Response]
     def build_response(connection, request)
       app.call(build_env(connection, request))
     end
@@ -221,7 +221,7 @@ module Faraday
     end
 
     def raise_if_adapter(klass)
-      return unless klass <= Faraday::Adapter
+      return unless klass <= Faraknight::Adapter
 
       raise 'Adapter should be set using the `adapter` method, not `use`'
     end

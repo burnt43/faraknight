@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-module Faraday
+module Faraknight
   # FlatParamsEncoder manages URI params as a flat hash. Any Array values repeat
   # the parameter multiple times.
   module FlatParamsEncoder
     class << self
       extend Forwardable
 
-      def_delegators :'Faraday::Utils', :escape, :unescape
+      def_delegators :'Faraknight::Utils', :escape, :unescape
     end
 
     # Encode converts the given param into a URI querystring. Keys and values

@@ -2,7 +2,7 @@
 
 require 'forwardable'
 
-module Faraday
+module Faraknight
   # Response represents an HTTP response from making an HTTP request.
   class Response
     extend Forwardable

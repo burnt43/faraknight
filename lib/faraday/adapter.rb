@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module Faraday
-  # Base class for all Faraday adapters. Adapters are
-  # responsible for fulfilling a Faraday request.
+module Faraknight
+  # Base class for all Faraknight adapters. Adapters are
+  # responsible for fulfilling a Faraknight request.
   class Adapter
     extend MiddlewareRegistry
 
@@ -41,7 +41,7 @@ module Faraday
     # Yields or returns an adapter's configured connection. Depends on
     # #build_connection being defined on this adapter.
     #
-    # @param env [Faraday::Env, Hash] The env object for a faraday request.
+    # @param env [Faraknight::Env, Hash] The env object for a faraday request.
     #
     # @return The return value of the given block, or the HTTP connection object
     #         if no block is given.

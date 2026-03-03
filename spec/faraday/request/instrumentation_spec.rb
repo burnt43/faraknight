@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::Request::Instrumentation do
+RSpec.describe Faraknight::Request::Instrumentation do
   class FakeInstrumenter
     attr_reader :instrumentations
 
@@ -15,10 +15,10 @@ RSpec.describe Faraday::Request::Instrumentation do
   end
 
   let(:config) { {} }
-  let(:options) { Faraday::Request::Instrumentation::Options.from config }
+  let(:options) { Faraknight::Request::Instrumentation::Options.from config }
   let(:instrumenter) { FakeInstrumenter.new }
   let(:conn) do
-    Faraday.new do |f|
+    Faraknight.new do |f|
       f.request :instrumentation, config.merge(instrumenter: instrumenter)
       f.adapter :test do |stub|
         stub.get '/' do

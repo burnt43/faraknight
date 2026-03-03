@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::Response::Json, type: :response do
+RSpec.describe Faraknight::Response::Json, type: :response do
   let(:options) { {} }
   let(:headers) { {} }
   let(:middleware) do
     described_class.new(lambda { |env|
-      Faraday::Response.new(env)
+      Faraknight::Response.new(env)
     }, **options)
   end
 
   def process(body, content_type = 'application/json', options = {})
     env = {
       body: body, request: options,
-      request_headers: Faraday::Utils::Headers.new,
-      response_headers: Faraday::Utils::Headers.new(headers)
+      request_headers: Faraknight::Utils::Headers.new,
+      response_headers: Faraknight::Utils::Headers.new(headers)
     }
     env[:response_headers]['content-type'] = content_type if content_type
     yield(env) if block_given?
-    middleware.call(Faraday::Env.from(env))
+    middleware.call(Faraknight::Env.from(env))
   end
 
   context 'no type matching' do
@@ -72,14 +72,14 @@ RSpec.describe Faraday::Response::Json, type: :response do
   end
 
   it 'chokes on invalid json' do
-    expect { process('{!') }.to raise_error(Faraday::ParsingError)
+    expect { process('{!') }.to raise_error(Faraknight::ParsingError)
   end
 
   it 'includes the response on the ParsingError instance' do
-    process('{') { |env| env[:response] = Faraday::Response.new }
+    process('{') { |env| env[:response] = Faraknight::Response.new }
     raise 'Parsing should have failed.'
-  rescue Faraday::ParsingError => e
-    expect(e.response).to be_a(Faraday::Response)
+  rescue Faraknight::ParsingError => e
+    expect(e.response).to be_a(Faraknight::Response)
   end
 
   context 'HEAD responses' do

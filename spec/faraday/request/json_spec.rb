@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::Request::Json do
-  let(:middleware) { described_class.new(->(env) { Faraday::Response.new(env) }) }
+RSpec.describe Faraknight::Request::Json do
+  let(:middleware) { described_class.new(->(env) { Faraknight::Response.new(env) }) }
 
   def process(body, content_type = nil)
-    env = { body: body, request_headers: Faraday::Utils::Headers.new }
+    env = { body: body, request_headers: Faraknight::Utils::Headers.new }
     env[:request_headers]['content-type'] = content_type if content_type
-    middleware.call(Faraday::Env.from(env)).env
+    middleware.call(Faraknight::Env.from(env)).env
   end
 
   def result_body

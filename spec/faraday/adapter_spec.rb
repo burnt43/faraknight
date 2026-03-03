@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::Adapter do
-  let(:adapter) { Faraday::Adapter.new }
+RSpec.describe Faraknight::Adapter do
+  let(:adapter) { Faraknight::Adapter.new }
   let(:request) { {} }
 
   context '#request_timeout' do

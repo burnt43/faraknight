@@ -7,7 +7,7 @@ This can be achieved using the `#in_parallel` method on the connection object.
 # Install the Typhoeus adapter with `gem install faraday-typhoeus` first.
 require 'faraday/typhoeus'
 
-conn = Faraday.new('http://httpbingo.org') do |faraday|
+conn = Faraknight.new('http://httpbingo.org') do |faraday|
   faraday.adapter :typhoeus
 end
 
@@ -25,15 +25,15 @@ puts "Time taken: #{Time.now - now}"
 ## A note on Async
 
 You might have heard about [Async] and its native integration with Ruby 3.0.
-The good news is that you can already use Async with Faraday (thanks to the [async-http-faraday] gem)
+The good news is that you can already use Async with Faraknight (thanks to the [async-http-faraday] gem)
 and this does not require the use of `#in_parallel` to run parallel requests.
-Instead, you only need to wrap your Faraday code into an Async block:
+Instead, you only need to wrap your Faraknight code into an Async block:
 
 ```ruby
 # Install the Async adapter with `gem install async-http-faraday` first.
 require 'async/http/faraday'
 
-conn = Faraday.new('http://httpbingo.org') do |faraday|
+conn = Faraknight.new('http://httpbingo.org') do |faraday|
   faraday.adapter :async_http
 end
 

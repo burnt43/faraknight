@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::RackBuilder do
+RSpec.describe Faraknight::RackBuilder do
   # mock handler classes
   (Handler = Struct.new(:app)).class_eval do
     def call(env)
@@ -20,26 +20,26 @@ RSpec.describe Faraday::RackBuilder do
   end
 
   subject { conn.builder }
-  before { Faraday.default_adapter = :test }
-  after { Faraday.default_adapter = nil }
+  before { Faraknight.default_adapter = :test }
+  after { Faraknight.default_adapter = nil }
 
   context 'with default stack' do
-    let(:conn) { Faraday::Connection.new }
+    let(:conn) { Faraknight::Connection.new }
 
-    it { expect(subject[0]).to eq(Faraday::Request.lookup_middleware(:url_encoded)) }
-    it { expect(subject.adapter).to eq(Faraday::Adapter.lookup_middleware(Faraday.default_adapter)) }
+    it { expect(subject[0]).to eq(Faraknight::Request.lookup_middleware(:url_encoded)) }
+    it { expect(subject.adapter).to eq(Faraknight::Adapter.lookup_middleware(Faraknight.default_adapter)) }
   end
 
   context 'with custom empty block' do
-    let(:conn) { Faraday::Connection.new {} }
+    let(:conn) { Faraknight::Connection.new {} }
 
     it { expect(subject[0]).to be_nil }
-    it { expect(subject.adapter).to eq(Faraday::Adapter.lookup_middleware(Faraday.default_adapter)) }
+    it { expect(subject.adapter).to eq(Faraknight::Adapter.lookup_middleware(Faraknight.default_adapter)) }
   end
 
   context 'with custom adapter only' do
     let(:conn) do
-      Faraday::Connection.new do |builder|
+      Faraknight::Connection.new do |builder|
         builder.adapter :test do |stub|
           stub.get('/') { |_| [200, {}, ''] }
         end
@@ -47,12 +47,12 @@ RSpec.describe Faraday::RackBuilder do
     end
 
     it { expect(subject[0]).to be_nil }
-    it { expect(subject.adapter).to eq(Faraday::Adapter.lookup_middleware(:test)) }
+    it { expect(subject.adapter).to eq(Faraknight::Adapter.lookup_middleware(:test)) }
   end
 
   context 'with custom handler and adapter' do
     let(:conn) do
-      Faraday::Connection.new do |builder|
+      Faraknight::Connection.new do |builder|
         builder.use Apple
         builder.adapter :test do |stub|
           stub.get('/') { |_| [200, {}, ''] }
@@ -64,7 +64,7 @@ RSpec.describe Faraday::RackBuilder do
       expect(subject.locked?).to be_falsey
       conn.get('/')
       expect(subject.locked?).to be_truthy
-      expect { subject.use(Orange) }.to raise_error(Faraday::RackBuilder::StackLocked)
+      expect { subject.use(Orange) }.to raise_error(Faraknight::RackBuilder::StackLocked)
     end
 
     it 'dup stack is unlocked' do
@@ -77,12 +77,12 @@ RSpec.describe Faraday::RackBuilder do
     end
 
     it 'allows to compare handlers' do
-      expect(subject.handlers.first).to eq(Faraday::RackBuilder::Handler.new(Apple))
+      expect(subject.handlers.first).to eq(Faraknight::RackBuilder::Handler.new(Apple))
     end
   end
 
   context 'when having a single handler' do
-    let(:conn) { Faraday::Connection.new {} }
+    let(:conn) { Faraknight::Connection.new {} }
 
     before { subject.use(Apple) }
 
@@ -104,14 +104,14 @@ RSpec.describe Faraday::RackBuilder do
     end
 
     it 'raises an error trying to use an unregistered symbol' do
-      expect { subject.use(:apple) }.to raise_error(Faraday::Error) do |err|
-        expect(err.message).to eq(':apple is not registered on Faraday::Middleware')
+      expect { subject.use(:apple) }.to raise_error(Faraknight::Error) do |err|
+        expect(err.message).to eq(':apple is not registered on Faraknight::Middleware')
       end
     end
   end
 
   context 'when having two handlers' do
-    let(:conn) { Faraday::Connection.new {} }
+    let(:conn) { Faraknight::Connection.new {} }
 
     before do
       subject.use(Apple)
@@ -140,11 +140,11 @@ RSpec.describe Faraday::RackBuilder do
   end
 
   context 'when adapter is added with named options' do
-    after { Faraday.default_adapter_options = {} }
-    let(:conn) { Faraday::Connection.new {} }
+    after { Faraknight.default_adapter_options = {} }
+    let(:conn) { Faraknight::Connection.new {} }
 
     let(:cat_adapter) do
-      Class.new(Faraday::Adapter) do
+      Class.new(Faraknight::Adapter) do
         attr_accessor :name
 
         def initialize(app, name:)
@@ -157,8 +157,8 @@ RSpec.describe Faraday::RackBuilder do
     let(:cat) { subject.adapter.build }
 
     it 'adds a handler to construct adapter with named options' do
-      Faraday.default_adapter = cat_adapter
-      Faraday.default_adapter_options = { name: 'Chloe' }
+      Faraknight.default_adapter = cat_adapter
+      Faraknight.default_adapter_options = { name: 'Chloe' }
       expect { cat }.to_not output(
         /warning: Using the last argument as keyword parameters is deprecated/
       ).to_stderr
@@ -167,10 +167,10 @@ RSpec.describe Faraday::RackBuilder do
   end
 
   context 'when middleware is added with named arguments' do
-    let(:conn) { Faraday::Connection.new {} }
+    let(:conn) { Faraknight::Connection.new {} }
 
     let(:dog_middleware) do
-      Class.new(Faraday::Middleware) do
+      Class.new(Faraknight::Middleware) do
         attr_accessor :name
 
         def initialize(app, name:)
@@ -193,10 +193,10 @@ RSpec.describe Faraday::RackBuilder do
   end
 
   context 'when a middleware is added with named arguments' do
-    let(:conn) { Faraday::Connection.new {} }
+    let(:conn) { Faraknight::Connection.new {} }
 
     let(:cat_request) do
-      Class.new(Faraday::Middleware) do
+      Class.new(Faraknight::Middleware) do
         attr_accessor :name
 
         def initialize(app, name:)
@@ -210,7 +210,7 @@ RSpec.describe Faraday::RackBuilder do
     end
 
     it 'adds a handler to construct request adapter with options passed to request' do
-      Faraday::Request.register_middleware cat_request: cat_request
+      Faraknight::Request.register_middleware cat_request: cat_request
       subject.request :cat_request, name: 'Felix'
       expect { cat }.to_not output(
         /warning: Using the last argument as keyword parameters is deprecated/
@@ -220,10 +220,10 @@ RSpec.describe Faraday::RackBuilder do
   end
 
   context 'when a middleware is added with named arguments' do
-    let(:conn) { Faraday::Connection.new {} }
+    let(:conn) { Faraknight::Connection.new {} }
 
     let(:fish_response) do
-      Class.new(Faraday::Middleware) do
+      Class.new(Faraknight::Middleware) do
         attr_accessor :name
 
         def initialize(app, name:)
@@ -237,7 +237,7 @@ RSpec.describe Faraday::RackBuilder do
     end
 
     it 'adds a handler to construct response adapter with options passed to response' do
-      Faraday::Response.register_middleware fish_response: fish_response
+      Faraknight::Response.register_middleware fish_response: fish_response
       subject.response :fish_response, name: 'Bubbles'
       expect { fish }.to_not output(
         /warning: Using the last argument as keyword parameters is deprecated/
@@ -247,10 +247,10 @@ RSpec.describe Faraday::RackBuilder do
   end
 
   context 'when a plain adapter is added with named arguments' do
-    let(:conn) { Faraday::Connection.new {} }
+    let(:conn) { Faraknight::Connection.new {} }
 
     let(:rabbit_adapter) do
-      Class.new(Faraday::Adapter) do
+      Class.new(Faraknight::Adapter) do
         attr_accessor :name
 
         def initialize(app, name:)
@@ -264,7 +264,7 @@ RSpec.describe Faraday::RackBuilder do
     end
 
     it 'adds a handler to construct adapter with options passed to adapter' do
-      Faraday::Adapter.register_middleware rabbit_adapter: rabbit_adapter
+      Faraknight::Adapter.register_middleware rabbit_adapter: rabbit_adapter
       subject.adapter :rabbit_adapter, name: 'Thumper'
       expect { rabbit }.to_not output(
         /warning: Using the last argument as keyword parameters is deprecated/
@@ -274,7 +274,7 @@ RSpec.describe Faraday::RackBuilder do
   end
 
   context 'when handlers are directly added or updated' do
-    let(:conn) { Faraday::Connection.new {} }
+    let(:conn) { Faraknight::Connection.new {} }
 
     let(:rock_handler) do
       Class.new do

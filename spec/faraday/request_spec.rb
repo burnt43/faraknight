@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::Request do
+RSpec.describe Faraknight::Request do
   let(:conn) do
-    Faraday.new(url: 'http://httpbingo.org/api',
+    Faraknight.new(url: 'http://httpbingo.org/api',
                 headers: { 'Mime-Version' => '1.0' },
                 request: { oauth: { consumer_key: 'anonymous' } })
   end
@@ -48,12 +48,12 @@ RSpec.describe Faraday::Request do
   end
 
   context 'when setting a header on setup with []= syntax' do
-    let(:block) { proc { |req| req['Server'] = 'Faraday' } }
+    let(:block) { proc { |req| req['Server'] = 'Faraknight' } }
     let(:headers) { subject.to_env(conn).request_headers }
 
-    it { expect(subject.headers['Server']).to eq('Faraday') }
+    it { expect(subject.headers['Server']).to eq('Faraknight') }
     it { expect(headers['mime-version']).to eq('1.0') }
-    it { expect(headers['server']).to eq('Faraday') }
+    it { expect(headers['server']).to eq('Faraknight') }
   end
 
   context 'when setting the body on setup' do

@@ -5,7 +5,7 @@ All these options are optional.
 
 | Option            | Type              | Default                                                        | Description                                                             |
 |-------------------|-------------------|----------------------------------------------------------------|-------------------------------------------------------------------------|
-| `:params_encoder` | Class             | `Faraday::Utils.nested_params_encoder` (`NestedParamsEncoder`) | A custom class to use as the params encoder.                            |
+| `:params_encoder` | Class             | `Faraknight::Utils.nested_params_encoder` (`NestedParamsEncoder`) | A custom class to use as the params encoder.                            |
 | `:proxy`          | URI, String, Hash | nil                                                            | Proxy options, either as a URL or as a Hash of [ProxyOptions].          |
 | `:bind`           | Hash              | nil                                                            | Hash of bind options. Requires the `:host` and `:port` keys.            |
 | `:timeout`        | Integer, Float    | nil (adapter default)                                          | The max number of seconds to wait for the request to complete.          |
@@ -21,11 +21,11 @@ All these options are optional.
 ```ruby
 # Request options can be passed to the connection constructor and will be applied to all requests.
 request_options = {
-  params_encoder: Faraday::FlatParamsEncoder,
+  params_encoder: Faraknight::FlatParamsEncoder,
   timeout: 5
 }
 
-conn = Faraday.new(request: request_options) do |faraday|
+conn = Faraknight.new(request: request_options) do |faraday|
   # ...
 end
 

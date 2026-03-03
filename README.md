@@ -1,20 +1,20 @@
-# [![Faraday](./docs/_media/home-logo.svg)][website]
+# [![Faraknight](./docs/_media/home-logo.svg)][website]
 
 [![Gem Version](https://badge.fury.io/rb/faraday.svg)](https://rubygems.org/gems/faraday)
 [![GitHub Actions CI](https://github.com/lostisland/faraday/workflows/CI/badge.svg)](https://github.com/lostisland/faraday/actions?query=workflow%3ACI)
 [![GitHub Discussions](https://img.shields.io/github/discussions/lostisland/faraday?logo=github)](https://github.com/lostisland/faraday/discussions)
 
-Faraday is an HTTP client library abstraction layer that provides a common interface over many
+Faraknight is an HTTP client library abstraction layer that provides a common interface over many
 adapters (such as Net::HTTP) and embraces the concept of Rack middleware when processing the request/response cycle.
-Take a look at [Awesome Faraday][awesome] for a list of available adapters and middleware.
+Take a look at [Awesome Faraknight][awesome] for a list of available adapters and middleware.
 
-## Why use Faraday?
+## Why use Faraknight?
 
-Faraday gives you the power of Rack middleware for manipulating HTTP requests and responses,
+Faraknight gives you the power of Rack middleware for manipulating HTTP requests and responses,
 making it easier to build sophisticated API clients or web service libraries that abstract away
 the details of how HTTP requests are made.
 
-Faraday comes with a lot of features out of the box, such as:
+Faraknight comes with a lot of features out of the box, such as:
 * Support for multiple adapters (Net::HTTP, Typhoeus, Patron, Excon, HTTPClient, and more)
 * Persistent connections (keep-alive)
 * Parallel requests
@@ -26,9 +26,9 @@ Faraday comes with a lot of features out of the box, such as:
 
 ## Getting Started
 
-The best starting point is the [Faraday Website][website], with its introduction and explanation.
+The best starting point is the [Faraknight Website][website], with its introduction and explanation.
 
-Need more details? See the [Faraday API Documentation][apidoc] to see how it works internally, or take a look at [Advanced techniques for calling HTTP APIs in Ruby](https://mattbrictson.com/blog/advanced-http-techniques-in-ruby) blog post from [@mattbrictson](https://github.com/mattbrictson) 🚀
+Need more details? See the [Faraknight API Documentation][apidoc] to see how it works internally, or take a look at [Advanced techniques for calling HTTP APIs in Ruby](https://mattbrictson.com/blog/advanced-http-techniques-in-ruby) blog post from [@mattbrictson](https://github.com/mattbrictson) 🚀
 
 ## Supported Ruby versions
 
@@ -52,13 +52,13 @@ of a major release, support for that Ruby version may be dropped.
 
 ## Contribute
 
-Do you want to contribute to Faraday?
+Do you want to contribute to Faraknight?
 Open the issues page and check for the `help wanted` label!
 But before you start coding, please read our [Contributing Guide][contributing]
 
 ## Copyright
 
-&copy; 2009 - 2023, the Faraday Team. Website and branding design by [Elena Lo Piccolo](https://elelopic.design).
+&copy; 2009 - 2023, the Faraknight Team. Website and branding design by [Elena Lo Piccolo](https://elelopic.design).
 
 [awesome]: https://github.com/lostisland/awesome-faraday/#adapters
 [website]: https://lostisland.github.io/faraday

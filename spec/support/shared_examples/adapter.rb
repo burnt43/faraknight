@@ -15,11 +15,11 @@ shared_examples 'an adapter' do |**options|
 end
 
 shared_examples 'adapter examples' do |**options|
-  include Faraday::StreamingResponseChecker
+  include Faraknight::StreamingResponseChecker
 
   let(:adapter) { described_class.name.split('::').last }
 
-  let(:conn_options) { { headers: { 'X-Faraday-Adapter' => adapter } }.merge(options[:conn_options] || {}) }
+  let(:conn_options) { { headers: { 'X-Faraknight-Adapter' => adapter } }.merge(options[:conn_options] || {}) }
 
   let(:adapter_options) do
     return [] unless options[:adapter_options]
@@ -40,7 +40,7 @@ shared_examples 'adapter examples' do |**options|
     conn_options[:ssl][:ca_file] ||= ENV.fetch('SSL_FILE', nil)
     conn_options[:ssl][:verify_hostname] ||= ENV['SSL_VERIFY_HOSTNAME'] == 'yes'
 
-    Faraday.new(remote, conn_options) do |conn|
+    Faraknight.new(remote, conn_options) do |conn|
       conn.request :url_encoded
       conn.response :raise_error
       conn.adapter described_class, *adapter_options

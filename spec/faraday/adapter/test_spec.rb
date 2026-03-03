@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::Adapter::Test do
+RSpec.describe Faraknight::Adapter::Test do
   let(:stubs) do
     described_class::Stubs.new do |stub|
       stub.get('http://domain.test/hello') do
@@ -34,7 +34,7 @@ RSpec.describe Faraday::Adapter::Test do
   end
 
   let(:connection) do
-    Faraday.new do |builder|
+    Faraknight.new do |builder|
       builder.adapter :test, stubs
     end
   end
@@ -121,7 +121,7 @@ RSpec.describe Faraday::Adapter::Test do
 
       it do
         expect { request }.to raise_error(
-          Faraday::Adapter::Test::Stubs::NotFound
+          Faraknight::Adapter::Test::Stubs::NotFound
         )
       end
     end
@@ -214,7 +214,7 @@ RSpec.describe Faraday::Adapter::Test do
           [200, {}, 'a']
         end
 
-        connection.options.params_encoder = Faraday::NestedParamsEncoder
+        connection.options.params_encoder = Faraknight::NestedParamsEncoder
       end
 
       it { is_expected.to eq 'a' }
@@ -227,7 +227,7 @@ RSpec.describe Faraday::Adapter::Test do
           [200, {}, 'a']
         end
 
-        connection.options.params_encoder = Faraday::FlatParamsEncoder
+        connection.options.params_encoder = Faraknight::FlatParamsEncoder
       end
 
       it { is_expected.to eq 'a' }
@@ -260,7 +260,7 @@ RSpec.describe Faraday::Adapter::Test do
 
   describe 'for request with non default params encoder' do
     let(:connection) do
-      Faraday.new(request: { params_encoder: Faraday::FlatParamsEncoder }) do |builder|
+      Faraknight.new(request: { params_encoder: Faraknight::FlatParamsEncoder }) do |builder|
         builder.adapter :test, stubs
       end
     end
@@ -435,7 +435,7 @@ RSpec.describe Faraday::Adapter::Test do
       let(:timeout) { 0.001 }
 
       it 'raises an exception' do
-        expect { request }.to raise_error(Faraday::TimeoutError)
+        expect { request }.to raise_error(Faraknight::TimeoutError)
       end
     end
   end

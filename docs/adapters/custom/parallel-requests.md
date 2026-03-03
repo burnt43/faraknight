@@ -17,10 +17,10 @@ puts response_1.status
 puts response_2.status
 ```
 
-First, in your class definition, you can tell Faraday that your backend supports parallel operation:
+First, in your class definition, you can tell Faraknight that your backend supports parallel operation:
 
 ```ruby
-class FlorpHttp < ::Faraday::Adapter
+class FlorpHttp < ::Faraknight::Adapter
   dependency do
     require 'florp_http'
   end
@@ -32,7 +32,7 @@ end
 Then, implement a method which returns a ParallelManager:
 
 ```ruby
-class FlorpHttp < ::Faraday::Adapter
+class FlorpHttp < ::Faraknight::Adapter
   dependency do
     require 'florp_http'
   end
@@ -63,12 +63,12 @@ end
 ### A note on the old, deprecated interface
 
 Prior to the introduction of the `execute` method, the `ParallelManager` was expected to implement a `run` method
-and the execution of the block was done by the Faraday connection BEFORE calling that method.
+and the execution of the block was done by the Faraknight connection BEFORE calling that method.
 
 This approach made the `ParallelManager` implementation harder and forced you to keep state around.
 The new `execute` implementation allows to avoid this shortfall and support different flows.
 
-As of Faraday 2.0, `run` is still supported in case `execute` is not implemented by the `ParallelManager`,
+As of Faraknight 2.0, `run` is still supported in case `execute` is not implemented by the `ParallelManager`,
 but this method should be considered deprecated.
 
 For reference, please see an example using `run` from [em-synchrony](https://github.com/lostisland/faraday-em_synchrony/blob/main/lib/faraday/adapter/em_synchrony.rb)

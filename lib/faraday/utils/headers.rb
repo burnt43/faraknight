@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Faraday
+module Faraknight
   module Utils
     # A case-insensitive Hash that preserves the original case of a header
     # when set.

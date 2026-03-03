@@ -2,7 +2,7 @@
 
 require 'json'
 
-module Faraday
+module Faraknight
   class Response
     # Parse response bodies as JSON.
     class Json < Middleware
@@ -25,7 +25,7 @@ module Faraday
         env[:raw_body] = env[:body] if @preserve_raw
         env[:body] = parse(env[:body])
       rescue StandardError, SyntaxError => e
-        raise Faraday::ParsingError.new(e, env[:response])
+        raise Faraknight::ParsingError.new(e, env[:response])
       end
 
       def parse(body)
@@ -71,4 +71,4 @@ module Faraday
   end
 end
 
-Faraday::Response.register_middleware(json: Faraday::Response::Json)
+Faraknight::Response.register_middleware(json: Faraknight::Response::Json)

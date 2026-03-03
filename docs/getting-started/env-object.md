@@ -1,6 +1,6 @@
 # The Env Object
 
-Inspired by Rack, Faraday uses an `env` object to pass data between middleware.
+Inspired by Rack, Faraknight uses an `env` object to pass data between middleware.
 This object is initialized at the beginning of the request and passed down the middleware stack.
 The adapter is then responsible to run the HTTP request and set the `response` property on the `env` object,
 which is then passed back up the middleware stack.
@@ -22,13 +22,13 @@ available after the request has been performed (i.e. in the `on_complete` callba
 | `:method`           | `Symbol`                   | :heavy_check_mark: | :heavy_check_mark: | The HTTP method to use.     |
 | `:request_body`     | `String`                   | :heavy_check_mark: | :heavy_check_mark: | The request body.           |
 | `:url`              | `URI`                      | :heavy_check_mark: | :heavy_check_mark: | The request URL.            |
-| `:request`          | `Faraday::RequestOptions`  | :heavy_check_mark: | :heavy_check_mark: | The request options.        |
-| `:request_headers`  | `Faraday::Utils::Headers`  | :heavy_check_mark: | :heavy_check_mark: | The request headers.        |
-| `:ssl`              | `Faraday::SSLOptions`      | :heavy_check_mark: | :heavy_check_mark: | The SSL options.            |
-| `:parallel_manager` | `Faraday::ParallelManager` | :heavy_check_mark: | :heavy_check_mark: | The parallel manager.       |
+| `:request`          | `Faraknight::RequestOptions`  | :heavy_check_mark: | :heavy_check_mark: | The request options.        |
+| `:request_headers`  | `Faraknight::Utils::Headers`  | :heavy_check_mark: | :heavy_check_mark: | The request headers.        |
+| `:ssl`              | `Faraknight::SSLOptions`      | :heavy_check_mark: | :heavy_check_mark: | The SSL options.            |
+| `:parallel_manager` | `Faraknight::ParallelManager` | :heavy_check_mark: | :heavy_check_mark: | The parallel manager.       |
 | `:params`           | `Hash`                     | :heavy_check_mark: | :heavy_check_mark: | The request params.         |
-| `:response`         | `Faraday::Response`        |        :x:         | :heavy_check_mark: | The response.               |
-| `:response_headers` | `Faraday::Utils::Headers`  |        :x:         | :heavy_check_mark: | The response headers.       |
+| `:response`         | `Faraknight::Response`        |        :x:         | :heavy_check_mark: | The response.               |
+| `:response_headers` | `Faraknight::Utils::Headers`  |        :x:         | :heavy_check_mark: | The response headers.       |
 | `:status`           | `Integer`                  |        :x:         | :heavy_check_mark: | The response status code.   |
 | `:reason_phrase`    | `String`                   |        :x:         | :heavy_check_mark: | The response reason phrase. |
 | `:response_body`    | `String`                   |        :x:         | :heavy_check_mark: | The response body.          |

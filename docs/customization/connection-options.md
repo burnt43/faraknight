@@ -1,6 +1,6 @@
 # Connection Options
 
-When initializing a new Faraday connection with `Faraday.new`, you can pass a hash of options to customize the connection.
+When initializing a new Faraknight connection with `Faraknight.new`, you can pass a hash of options to customize the connection.
 All these options are optional.
 
 | Option              | Type              | Default         | Description                                                                                                   |
@@ -38,7 +38,7 @@ options = {
   headers: { 'X-Api-Key' => 'secret', 'X-Api-Version' => '2' }
 }
 
-conn = Faraday.new(options) do |faraday|
+conn = Faraknight.new(options) do |faraday|
   # ...
 end
 ```

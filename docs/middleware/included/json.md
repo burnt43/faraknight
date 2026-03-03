@@ -2,7 +2,7 @@
 
 ## JSON Requests
 
-The `JSON` request middleware converts a `Faraday::Request#body` hash of key/value pairs into a JSON request body.
+The `JSON` request middleware converts a `Faraknight::Request#body` hash of key/value pairs into a JSON request body.
 The middleware also automatically sets the `Content-Type` header to `application/json`,
 processes only requests with matching Content-Type or those without a type and
 doesn't try to encode bodies that already are in string form.
@@ -10,7 +10,7 @@ doesn't try to encode bodies that already are in string form.
 ### Example Usage
 
 ```ruby
-conn = Faraday.new(...) do |f|
+conn = Faraknight.new(...) do |f|
   f.request :json
   ...
 end
@@ -32,11 +32,11 @@ Other encoders can be used by specifying `encoder` option for the middleware:
 ```ruby
 require 'oj'
 
-Faraday.new(...) do |f|
+Faraknight.new(...) do |f|
   f.request :json, encoder: Oj
 end
 
-Faraday.new(...) do |f|
+Faraknight.new(...) do |f|
   f.request :json, encoder: [Oj, :dump]
 end
 ```
@@ -52,7 +52,7 @@ The behaviour can be customized with the following options:
 ### Example Usage
 
 ```ruby
-conn = Faraday.new('http://httpbingo.org') do |f|
+conn = Faraknight.new('http://httpbingo.org') do |f|
   f.response :json, **options
 end
 
@@ -71,11 +71,11 @@ Other decoders can be used by specifying `decoder` parser option for the middlew
 ```ruby
 require 'oj'
 
-Faraday.new(...) do |f|
+Faraknight.new(...) do |f|
   f.response :json, parser_options: { decoder: Oj }
 end
 
-Faraday.new(...) do |f|
+Faraknight.new(...) do |f|
   f.response :json, parser_options: { decoder: [Oj, :load] }
 end
 ```

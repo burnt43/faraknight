@@ -1,24 +1,24 @@
-# Faraday-Specific AI Agent Guidelines
+# Faraknight-Specific AI Agent Guidelines
 
 ## Purpose
-These guidelines ensure all AI agents (Copilot, Claude, Cursor, etc.) contribute code that is consistent with the conventions and patterns used in the Faraday codebase. Agents must:
+These guidelines ensure all AI agents (Copilot, Claude, Cursor, etc.) contribute code that is consistent with the conventions and patterns used in the Faraknight codebase. Agents must:
 - Read these guidelines before any work.
 - Suggest updates whenever conventions change or new patterns emerge, keeping this document up to date.
 
 ## Code Style & Structure
 - **Do not include basic Ruby or RSpec tips**—assume agents know the language, RuboCop, and test basics.
-- Use the established Faraday directory structure (`lib/faraday/` for main code, `spec/faraday/` for tests).
-- Classes and files must use descriptive, conventional Ruby names (e.g., `Faraday::MyAdapter` in `lib/faraday/my_adapter.rb`).
+- Use the established Faraknight directory structure (`lib/faraday/` for main code, `spec/faraday/` for tests).
+- Classes and files must use descriptive, conventional Ruby names (e.g., `Faraknight::MyAdapter` in `lib/faraday/my_adapter.rb`).
 
 ## Middleware Implementation
-- All middleware must inherit from `Faraday::Middleware`.
+- All middleware must inherit from `Faraknight::Middleware`.
 - Use a `DEFAULT_OPTIONS` constant for configuration defaults. Validate options via `validate_default_options` if needed.
 - Middleware should implement any of: `on_request`, `on_complete`, and `on_error` as needed. Only add hooks required for your logic.
-- Register middleware via `Faraday::Middleware.register_middleware your_key: YourClass`. Use clear, unique keys.
+- Register middleware via `Faraknight::Middleware.register_middleware your_key: YourClass`. Use clear, unique keys.
 - Prefer stateless middleware. Store state only in the `env` hash or local variables.
 
 ## Adapter Patterns
-- Adapters must extend `Faraday::MiddlewareRegistry` and register themselves.
+- Adapters must extend `Faraknight::MiddlewareRegistry` and register themselves.
 - If providing parallel support, include the `Parallelism` module and set `supports_parallel = true`.
 - Implement required methods (`build_connection`, `close`, etc.) as seen in existing adapters.
 - Keep each adapter in its own file under `lib/faraday/adapter/`.
@@ -49,4 +49,4 @@ AI agents are responsible for:
 
 ---
 
-*Keep this file current and aligned with the real conventions and architecture of the Faraday codebase.*
+*Keep this file current and aligned with the real conventions and architecture of the Faraknight codebase.*

@@ -2,8 +2,8 @@
 
 require 'monitor'
 
-module Faraday
-  # Middleware is the basic base class of any Faraday middleware.
+module Faraknight
+  # Middleware is the basic base class of any Faraknight middleware.
   class Middleware
     extend MiddlewareRegistry
 
@@ -18,13 +18,13 @@ module Faraday
     end
 
     class << self
-      # Faraday::Middleware::default_options= allows user to set default options at the Faraday::Middleware
+      # Faraknight::Middleware::default_options= allows user to set default options at the Faraknight::Middleware
       # class level.
       #
-      # @example Set the Faraday::Response::RaiseError option, `include_request` to `false`
+      # @example Set the Faraknight::Response::RaiseError option, `include_request` to `false`
       # my_app/config/initializers/my_faraday_middleware.rb
       #
-      # Faraday::Response::RaiseError.default_options = { include_request: false }
+      # Faraknight::Response::RaiseError.default_options = { include_request: false }
       #
       def default_options=(options = {})
         validate_default_options(options)
@@ -34,7 +34,7 @@ module Faraday
       end
 
       # default_options attr_reader that initializes class instance variable
-      # with the values of any Faraday::Middleware defaults, and merges with
+      # with the values of any Faraknight::Middleware defaults, and merges with
       # subclass defaults
       def default_options
         @default_options ||= DEFAULT_OPTIONS.merge(self::DEFAULT_OPTIONS)
@@ -46,7 +46,7 @@ module Faraday
         invalid_keys = options.keys.reject { |opt| self::DEFAULT_OPTIONS.key?(opt) }
         return unless invalid_keys.any?
 
-        raise(Faraday::InitializationError,
+        raise(Faraknight::InitializationError,
               "Invalid options provided. Keys not found in #{self}::DEFAULT_OPTIONS: #{invalid_keys.join(', ')}")
       end
     end

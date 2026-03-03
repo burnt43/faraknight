@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Faraday
+module Faraknight
   # Used to setup URLs, params, headers, and the request body in a sane manner.
   #
   # @example
@@ -19,7 +19,7 @@ module Faraday
   # @!attribute params
   #   @return [Hash] query parameters
   # @!attribute headers
-  #   @return [Faraday::Utils::Headers] headers
+  #   @return [Faraknight::Utils::Headers] headers
   # @!attribute body
   #   @return [String] body
   # @!attribute options

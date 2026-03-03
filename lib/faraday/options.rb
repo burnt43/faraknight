@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Faraday
+module Faraknight
   # Subclasses Struct with some special helpers for converting from a Hash to
   # a Struct.
   class Options < Struct

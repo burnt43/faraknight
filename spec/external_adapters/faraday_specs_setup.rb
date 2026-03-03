@@ -10,5 +10,5 @@ require_relative '../support/shared_examples/adapter'
 require_relative '../support/shared_examples/request_method'
 
 RSpec.configure do |config|
-  config.include Faraday::HelperMethods
+  config.include Faraknight::HelperMethods
 end

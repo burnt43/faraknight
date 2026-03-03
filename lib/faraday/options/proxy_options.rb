@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Faraday
+module Faraknight
   # @!parse
   #   # ProxyOptions contains the configurable properties for the proxy
   #   # configuration used when making an HTTP request.

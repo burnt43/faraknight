@@ -1,17 +1,17 @@
 # RFC/Tracking: Detach Options subclasses into explicit OOP (BaseOptions + OptionsLike), keep legacy Options
 
 ## Summary
-- Keep Faraday::Options as-is for backward compatibility.
+- Keep Faraknight::Options as-is for backward compatibility.
 - Detach existing subclasses (ConnectionOptions, RequestOptions, SSLOptions, ProxyOptions, Env) into explicit OOP classes that do not inherit from Options.
 - Introduce:
-  - Faraday::OptionsLike (marker module) to identify "options-like" objects.
-  - Faraday::BaseOptions (abstract superclass) that centralizes .from/update/merge!/merge/deep_dup/to_hash/inspect and nested coercion via constants.
+  - Faraknight::OptionsLike (marker module) to identify "options-like" objects.
+  - Faraknight::BaseOptions (abstract superclass) that centralizes .from/update/merge!/merge/deep_dup/to_hash/inspect and nested coercion via constants.
 - Drop legacy ergonomics for detached subclasses (Struct indexing, fetch, each_key, .options macro, .memoized macro). Preserve Env's hash-like []/[]= since middleware uses it.
 - Convert classes one-by-one: ProxyOptions → RequestOptions → SSLOptions → ConnectionOptions → Env.
 
 ## Main decisions
 - Inheritance + marker: BaseOptions reduces duplication and drift for correctness-sensitive logic (nested coercion/merge/deep-dup). OptionsLike provides a stable way to integrate with Utils.deep_merge! and any duck-typed interop.
-- Back-compat boundary: Faraday::Options remains unchanged. New classes' .from accept Hash and legacy Options (via to_hash). Deep-merge continues to work on both legacy and new options classes.
+- Back-compat boundary: Faraknight::Options remains unchanged. New classes' .from accept Hash and legacy Options (via to_hash). Deep-merge continues to work on both legacy and new options classes.
 - Ergonomics: For internal code we drop Struct-like features. Env keeps []/[]=.
 
 ## Short code examples
@@ -19,7 +19,7 @@
 ### OptionsLike and BaseOptions
 
 ```ruby
-module Faraday
+module Faraknight
   module OptionsLike; end
 
   class BaseOptions
@@ -105,7 +105,7 @@ end
 ### ProxyOptions (detached)
 
 ```ruby
-class Faraday::ProxyOptions < Faraday::BaseOptions
+class Faraknight::ProxyOptions < Faraknight::BaseOptions
   MEMBERS = [:uri, :user, :password].freeze
   attr_accessor(*MEMBERS)
 
@@ -114,7 +114,7 @@ class Faraday::ProxyOptions < Faraday::BaseOptions
       case v
       when String
         v = "http://#{v}" unless v.include?('://')
-        Faraday::Utils.URI(v)
+        Faraknight::Utils.URI(v)
       when URI
         v
       else
@@ -124,11 +124,11 @@ class Faraday::ProxyOptions < Faraday::BaseOptions
   }.freeze
 
   def user
-    @user || (uri && Faraday::Utils.unescape(uri.user))
+    @user || (uri && Faraknight::Utils.unescape(uri.user))
   end
 
   def password
-    @password || (uri && Faraday::Utils.unescape(uri.password))
+    @password || (uri && Faraknight::Utils.unescape(uri.password))
   end
 end
 ```
@@ -138,7 +138,7 @@ end
 ```ruby
 # lib/faraday/utils.rb
 # Treat OptionsLike like Options when deep-merging nested structures
-if value.is_a?(Hash) && (target_value.is_a?(Hash) || target_value.is_a?(Faraday::OptionsLike))
+if value.is_a?(Hash) && (target_value.is_a?(Hash) || target_value.is_a?(Faraknight::OptionsLike))
   target[key] = deep_merge(target_value, value)
 else
   target[key] = value
@@ -174,7 +174,7 @@ end
   - Research: adapter interactions with SSLOptions
 - [ ] Convert ConnectionOptions to BaseOptions (coerce request/ssl; default builder_class)
   - Files: lib/faraday/options/connection_options.rb, lib/faraday.rb
-  - Tests: Faraday.new/default_connection_options, deep_merge!, builder behavior
+  - Tests: Faraknight.new/default_connection_options, deep_merge!, builder behavior
   - Research: usages of members/values/[]; migrate to explicit access
 - [ ] Convert Env (last; preserve middleware hash-like API)
   - Files: lib/faraday/options/env.rb

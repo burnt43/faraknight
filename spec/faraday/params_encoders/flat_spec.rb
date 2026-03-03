@@ -2,7 +2,7 @@
 
 require 'rack/utils'
 
-RSpec.describe Faraday::FlatParamsEncoder do
+RSpec.describe Faraknight::FlatParamsEncoder do
   it_behaves_like 'a params encoder'
 
   it 'decodes arrays' do
@@ -35,8 +35,8 @@ RSpec.describe Faraday::FlatParamsEncoder do
   it 'encodes unsorted when asked' do
     params = { b: false, a: true }
     expect(subject.encode(params)).to eq('a=true&b=false')
-    Faraday::FlatParamsEncoder.sort_params = false
+    Faraknight::FlatParamsEncoder.sort_params = false
     expect(subject.encode(params)).to eq('b=false&a=true')
-    Faraday::FlatParamsEncoder.sort_params = true
+    Faraknight::FlatParamsEncoder.sort_params = true
   end
 end

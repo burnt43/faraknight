@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::MiddlewareRegistry do
+RSpec.describe Faraknight::MiddlewareRegistry do
   before do
     stub_const('CustomMiddleware', custom_middleware_klass)
   end
-  let(:custom_middleware_klass) { Class.new(Faraday::Middleware) }
-  let(:dummy) { Class.new { extend Faraday::MiddlewareRegistry } }
+  let(:custom_middleware_klass) { Class.new(Faraknight::Middleware) }
+  let(:dummy) { Class.new { extend Faraknight::MiddlewareRegistry } }
 
   after { dummy.unregister_middleware(:custom) }
 

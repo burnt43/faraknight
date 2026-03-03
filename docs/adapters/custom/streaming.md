@@ -1,6 +1,6 @@
 # Adding support for streaming
 
-Faraday supports streaming responses, which means that the response body is not loaded into memory all at once,
+Faraknight supports streaming responses, which means that the response body is not loaded into memory all at once,
 but instead it is read in chunks. This can be particularly useful when dealing with large responses.
 Not all HTTP clients support this, so it is not required for adapters to support it.
 
@@ -8,9 +8,9 @@ However, if you do want to support it in your adapter, you can do so by leveragi
 Let's see an example implementation first with some comments, and then we'll explain it in more detail:
 
 ```ruby
-module Faraday
+module Faraknight
   class Adapter
-    class FlorpHttp < Faraday::Adapter
+    class FlorpHttp < Faraknight::Adapter
       def call(env)
         super
         if env.stream_response? # check if the user wants to stream the response
@@ -59,7 +59,7 @@ To see how this all works together, let's see an example of how a user would use
 # A buffer to store the streamed data
 streamed = []
 
-conn = Faraday.new('http://httpbingo.org')
+conn = Faraknight.new('http://httpbingo.org')
 conn.get('/stream/100') do |req|
   # Set a callback which will receive tuples of chunk Strings,
   # the sum of characters received so far, and the response environment.

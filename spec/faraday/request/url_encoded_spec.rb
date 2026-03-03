@@ -2,9 +2,9 @@
 
 require 'stringio'
 
-RSpec.describe Faraday::Request::UrlEncoded do
+RSpec.describe Faraknight::Request::UrlEncoded do
   let(:conn) do
-    Faraday.new do |b|
+    Faraknight.new do |b|
       b.request :url_encoded
       b.adapter :test do |stub|
         stub.post('/echo') do |env|
@@ -47,16 +47,16 @@ RSpec.describe Faraday::Request::UrlEncoded do
     response = conn.post('/echo', user: { name: 'Mislav', web: 'mislav.net' })
     expect(response.headers['Content-Type']).to eq('application/x-www-form-urlencoded')
     expected = { 'user' => { 'name' => 'Mislav', 'web' => 'mislav.net' } }
-    expect(Faraday::Utils.parse_nested_query(response.body)).to eq(expected)
+    expect(Faraknight::Utils.parse_nested_query(response.body)).to eq(expected)
   end
 
   it 'works with non nested params' do
     response = conn.post('/echo', dimensions: %w[date location]) do |req|
-      req.options.params_encoder = Faraday::FlatParamsEncoder
+      req.options.params_encoder = Faraknight::FlatParamsEncoder
     end
     expect(response.headers['Content-Type']).to eq('application/x-www-form-urlencoded')
     expected = { 'dimensions' => %w[date location] }
-    expect(Faraday::Utils.parse_query(response.body)).to eq(expected)
+    expect(Faraknight::Utils.parse_query(response.body)).to eq(expected)
     expect(response.body).to eq('dimensions=date&dimensions=location')
   end
 
@@ -80,9 +80,9 @@ RSpec.describe Faraday::Request::UrlEncoded do
 
   context 'customising default_space_encoding' do
     around do |example|
-      Faraday::Utils.default_space_encoding = '%20'
+      Faraknight::Utils.default_space_encoding = '%20'
       example.run
-      Faraday::Utils.default_space_encoding = nil
+      Faraknight::Utils.default_space_encoding = nil
     end
 
     it 'uses the custom character to encode spaces' do

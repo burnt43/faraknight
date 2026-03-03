@@ -19,7 +19,7 @@ proxy_options = {
   password: 'password'
 }
 
-conn = Faraday.new(proxy: proxy_options) do |faraday|
+conn = Faraknight.new(proxy: proxy_options) do |faraday|
   # ...
 end
 

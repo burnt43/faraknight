@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::Request::Authorization do
+RSpec.describe Faraknight::Request::Authorization do
   let(:conn) do
-    Faraday.new do |b|
+    Faraknight.new do |b|
       b.request :authorization, auth_type, *auth_config
       b.adapter :test do |stub|
         stub.get('/auth-echo') do |env|

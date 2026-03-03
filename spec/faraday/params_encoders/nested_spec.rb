@@ -2,7 +2,7 @@
 
 require 'rack/utils'
 
-RSpec.describe Faraday::NestedParamsEncoder do
+RSpec.describe Faraknight::NestedParamsEncoder do
   it_behaves_like 'a params encoder'
 
   it 'decodes arrays' do
@@ -61,7 +61,7 @@ RSpec.describe Faraday::NestedParamsEncoder do
 
   it 'encodes rack compat' do
     params   = { a: [{ one: '1', two: '2' }, '3', ''] }
-    result   = Faraday::Utils.unescape(Faraday::NestedParamsEncoder.encode(params)).split('&')
+    result   = Faraknight::Utils.unescape(Faraknight::NestedParamsEncoder.encode(params)).split('&')
     escaped = Rack::Utils.build_nested_query(params)
     expected = Rack::Utils.unescape(escaped).split('&')
     expect(result).to match_array(expected)
@@ -69,19 +69,19 @@ RSpec.describe Faraday::NestedParamsEncoder do
 
   it 'encodes empty string array value' do
     expected = 'baz=&foo%5Bbar%5D='
-    result = Faraday::NestedParamsEncoder.encode(foo: { bar: '' }, baz: '')
+    result = Faraknight::NestedParamsEncoder.encode(foo: { bar: '' }, baz: '')
     expect(result).to eq(expected)
   end
 
   it 'encodes nil array value' do
     expected = 'baz&foo%5Bbar%5D'
-    result = Faraday::NestedParamsEncoder.encode(foo: { bar: nil }, baz: nil)
+    result = Faraknight::NestedParamsEncoder.encode(foo: { bar: nil }, baz: nil)
     expect(result).to eq(expected)
   end
 
   it 'encodes empty array value' do
     expected = 'baz%5B%5D&foo%5Bbar%5D%5B%5D'
-    result = Faraday::NestedParamsEncoder.encode(foo: { bar: [] }, baz: [])
+    result = Faraknight::NestedParamsEncoder.encode(foo: { bar: [] }, baz: [])
     expect(result).to eq(expected)
   end
 
@@ -98,17 +98,17 @@ RSpec.describe Faraday::NestedParamsEncoder do
   it 'encodes unsorted when asked' do
     params = { b: false, a: true }
     expect(subject.encode(params)).to eq('a=true&b=false')
-    Faraday::NestedParamsEncoder.sort_params = false
+    Faraknight::NestedParamsEncoder.sort_params = false
     expect(subject.encode(params)).to eq('b=false&a=true')
-    Faraday::NestedParamsEncoder.sort_params = true
+    Faraknight::NestedParamsEncoder.sort_params = true
   end
 
   it 'encodes arrays indices when asked' do
     params = { a: [0, 1, 2] }
     expect(subject.encode(params)).to eq('a%5B%5D=0&a%5B%5D=1&a%5B%5D=2')
-    Faraday::NestedParamsEncoder.array_indices = true
+    Faraknight::NestedParamsEncoder.array_indices = true
     expect(subject.encode(params)).to eq('a%5B0%5D=0&a%5B1%5D=1&a%5B2%5D=2')
-    Faraday::NestedParamsEncoder.array_indices = false
+    Faraknight::NestedParamsEncoder.array_indices = false
   end
 
   shared_examples 'a wrong decoding' do

@@ -1,6 +1,6 @@
 # URL Encoding
 
-The `UrlEncoded` middleware converts a `Faraday::Request#body` hash of key/value pairs into a url-encoded request body.
+The `UrlEncoded` middleware converts a `Faraknight::Request#body` hash of key/value pairs into a url-encoded request body.
 The middleware also automatically sets the `Content-Type` header to `application/x-www-form-urlencoded`.
 The way parameters are serialized can be customized in the [Request Options](customization/request-options.md).
 
@@ -8,7 +8,7 @@ The way parameters are serialized can be customized in the [Request Options](cus
 ### Example Usage
 
 ```ruby
-conn = Faraday.new(...) do |f|
+conn = Faraknight.new(...) do |f|
   f.request :url_encoded
   ...
 end

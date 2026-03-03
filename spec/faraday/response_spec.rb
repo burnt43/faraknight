@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::Response do
-  subject { Faraday::Response.new(env) }
+RSpec.describe Faraknight::Response do
+  subject { Faraknight::Response.new(env) }
 
   let(:env) do
-    Faraday::Env.from(status: 404, body: 'yikes', url: Faraday::Utils.URI('https://lostisland.github.io/faraday'),
+    Faraknight::Env.from(status: 404, body: 'yikes', url: Faraknight::Utils.URI('https://lostisland.github.io/faraday'),
                       response_headers: { 'Content-Type' => 'text/plain' })
   end
 
@@ -34,14 +34,14 @@ RSpec.describe Faraday::Response do
     it { expect(hash[:url]).to eq(subject.env.url) }
 
     context 'when response is not finished' do
-      subject { Faraday::Response.new.to_hash }
+      subject { Faraknight::Response.new.to_hash }
 
       it { is_expected.to eq({ status: nil, body: nil, response_headers: {}, url: nil }) }
     end
   end
 
   describe 'marshal serialization support' do
-    subject { Faraday::Response.new }
+    subject { Faraknight::Response.new }
     let(:loaded) { Marshal.load(Marshal.dump(subject)) }
 
     before do
@@ -57,7 +57,7 @@ RSpec.describe Faraday::Response do
   end
 
   describe '#on_complete' do
-    subject { Faraday::Response.new }
+    subject { Faraknight::Response.new }
 
     it 'parse body on finish' do
       subject.on_complete { |env| env[:body] = env[:body].upcase }

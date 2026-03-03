@@ -3,14 +3,14 @@
 require 'stringio'
 require 'logger'
 
-RSpec.describe Faraday::Response::Logger do
+RSpec.describe Faraknight::Response::Logger do
   let(:string_io) { StringIO.new }
   let(:logger) { Logger.new(string_io) }
   let(:logger_options) { {} }
   let(:conn) do
     rubbles = ['Barney', 'Betty', 'Bam Bam']
 
-    Faraday.new do |b|
+    Faraknight.new do |b|
       b.response :logger, logger, logger_options do |logger|
         logger.filter(/(soylent green is) (.+)/, '\1 tasty')
         logger.filter(/(api_key:).*"(.+)."/, '\1[API_KEY]')
@@ -26,7 +26,7 @@ RSpec.describe Faraday::Response::Logger do
         stubs.get('/filtered_headers') { [200, { 'Content-Type' => 'text/html' }, 'headers response'] }
         stubs.get('/filtered_params') { [200, { 'Content-Type' => 'text/html' }, 'params response'] }
         stubs.get('/filtered_url') { [200, { 'Content-Type' => 'text/html' }, 'url response'] }
-        stubs.get('/connection_failed') { raise Faraday::ConnectionFailed, 'Failed to open TCP connection' }
+        stubs.get('/connection_failed') { raise Faraknight::ConnectionFailed, 'Failed to open TCP connection' }
       end
     end
   end
@@ -42,7 +42,7 @@ RSpec.describe Faraday::Response::Logger do
 
   context 'without configuration' do
     let(:conn) do
-      Faraday.new do |b|
+      Faraknight.new do |b|
         b.response :logger
         b.adapter :test do |stubs|
           stubs.get('/hello') { [200, { 'Content-Type' => 'text/html' }, 'hello'] }
@@ -77,29 +77,29 @@ RSpec.describe Faraday::Response::Logger do
   end
 
   context 'with default formatter' do
-    let(:formatter) { instance_double(Faraday::Logging::Formatter, request: true, response: true, filter: []) }
+    let(:formatter) { instance_double(Faraknight::Logging::Formatter, request: true, response: true, filter: []) }
 
-    before { allow(Faraday::Logging::Formatter).to receive(:new).and_return(formatter) }
+    before { allow(Faraknight::Logging::Formatter).to receive(:new).and_return(formatter) }
 
     it 'delegates logging to the formatter' do
-      expect(formatter).to receive(:request).with(an_instance_of(Faraday::Env))
-      expect(formatter).to receive(:response).with(an_instance_of(Faraday::Env))
+      expect(formatter).to receive(:request).with(an_instance_of(Faraknight::Env))
+      expect(formatter).to receive(:response).with(an_instance_of(Faraknight::Env))
       conn.get '/hello'
     end
 
     context 'when no route' do
       it 'delegates logging to the formatter' do
-        expect(formatter).to receive(:request).with(an_instance_of(Faraday::Env))
-        expect(formatter).to receive(:exception).with(an_instance_of(Faraday::Adapter::Test::Stubs::NotFound))
+        expect(formatter).to receive(:request).with(an_instance_of(Faraknight::Env))
+        expect(formatter).to receive(:exception).with(an_instance_of(Faraknight::Adapter::Test::Stubs::NotFound))
 
-        expect { conn.get '/noroute' }.to raise_error(Faraday::Adapter::Test::Stubs::NotFound)
+        expect { conn.get '/noroute' }.to raise_error(Faraknight::Adapter::Test::Stubs::NotFound)
       end
     end
   end
 
   context 'with custom formatter' do
     let(:formatter_class) do
-      Class.new(Faraday::Logging::Formatter) do
+      Class.new(Faraknight::Logging::Formatter) do
         def request(_env)
           info 'Custom log formatter request'
         end
@@ -131,7 +131,7 @@ RSpec.describe Faraday::Response::Logger do
   end
 
   it 'does not log error message by default' do
-    expect { conn.get '/noroute' }.to raise_error(Faraday::Adapter::Test::Stubs::NotFound)
+    expect { conn.get '/noroute' }.to raise_error(Faraknight::Adapter::Test::Stubs::NotFound)
     expect(string_io.string).not_to match(%(no stubbed request for get http:/noroute))
   end
 
@@ -253,7 +253,7 @@ RSpec.describe Faraday::Response::Logger do
     let(:logger_options) { { errors: true } }
 
     it 'logs error message' do
-      expect { conn.get '/noroute' }.to raise_error(Faraday::Adapter::Test::Stubs::NotFound)
+      expect { conn.get '/noroute' }.to raise_error(Faraknight::Adapter::Test::Stubs::NotFound)
       expect(string_io.string).to match(%(no stubbed request for get http:/noroute))
     end
   end
@@ -262,7 +262,7 @@ RSpec.describe Faraday::Response::Logger do
     let(:logger_options) { { headers: true, errors: true } }
 
     it 'logs error message' do
-      expect { conn.get '/connection_failed' }.to raise_error(Faraday::ConnectionFailed)
+      expect { conn.get '/connection_failed' }.to raise_error(Faraknight::ConnectionFailed)
       expect(string_io.string).to match(%(Failed to open TCP connection))
     end
   end

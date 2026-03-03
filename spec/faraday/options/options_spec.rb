@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::Options do
-  SubOptions = Class.new(Faraday::Options.new(:sub_a, :sub_b))
-  ParentOptions = Faraday::Options.new(:a, :b, :c) do
+RSpec.describe Faraknight::Options do
+  SubOptions = Class.new(Faraknight::Options.new(:sub_a, :sub_b))
+  ParentOptions = Faraknight::Options.new(:a, :b, :c) do
     options c: SubOptions
   end
 
@@ -275,7 +275,7 @@ RSpec.describe Faraday::Options do
         end
 
         it 'needs a default if key is missing' do
-          expect { subject.fetch(:sub_a) }.to raise_error(Faraday::Options.fetch_error_class)
+          expect { subject.fetch(:sub_a) }.to raise_error(Faraknight::Options.fetch_error_class)
         end
       end
 

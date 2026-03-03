@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-RSpec.describe Faraday::AdapterRegistry do
+RSpec.describe Faraknight::AdapterRegistry do
   describe '#initialize' do
     subject(:registry) { described_class.new }
 
@@ -8,11 +8,11 @@ RSpec.describe Faraday::AdapterRegistry do
     it { expect { registry.get('FinFangFoom') }.to raise_error(NameError) }
 
     it 'looks up class by string name' do
-      expect(registry.get('Faraday::Connection')).to eq(Faraday::Connection)
+      expect(registry.get('Faraknight::Connection')).to eq(Faraknight::Connection)
     end
 
     it 'looks up class by symbol name' do
-      expect(registry.get(:Faraday)).to eq(Faraday)
+      expect(registry.get(:Faraknight)).to eq(Faraknight)
     end
 
     it 'caches lookups with implicit name' do

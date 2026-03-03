@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Faraday
+module Faraknight
   module HelperMethods
     def self.included(base)
       base.extend ClassMethods
@@ -33,16 +33,16 @@ module Faraday
     end
 
     def normalize(url)
-      Faraday::Utils::URI(url)
+      Faraknight::Utils::URI(url)
     end
 
     def with_default_uri_parser(parser)
-      old_parser = Faraday::Utils.default_uri_parser
+      old_parser = Faraknight::Utils.default_uri_parser
       begin
-        Faraday::Utils.default_uri_parser = parser
+        Faraknight::Utils.default_uri_parser = parser
         yield
       ensure
-        Faraday::Utils.default_uri_parser = old_parser
+        Faraknight::Utils.default_uri_parser = old_parser
       end
     end
 
@@ -64,12 +64,12 @@ module Faraday
     end
 
     def with_env_proxy_disabled
-      Faraday.ignore_env_proxy = true
+      Faraknight.ignore_env_proxy = true
 
       begin
         yield
       ensure
-        Faraday.ignore_env_proxy = false
+        Faraknight.ignore_env_proxy = false
       end
     end
 

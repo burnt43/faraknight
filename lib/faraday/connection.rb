@@ -1,21 +1,21 @@
 # frozen_string_literal: true
 
-module Faraday
+module Faraknight
   # Connection objects manage the default properties and the middleware
   # stack for fulfilling an HTTP request.
   #
   # @example
   #
-  #   conn = Faraday::Connection.new 'http://httpbingo.org'
+  #   conn = Faraknight::Connection.new 'http://httpbingo.org'
   #
   #   # GET http://httpbingo.org/nigiri
   #   conn.get 'nigiri'
-  #   # => #<Faraday::Response>
+  #   # => #<Faraknight::Response>
   #
   class Connection
     # A Set of allowed HTTP verbs.
     METHODS = Set.new %i[get post put delete head patch options trace]
-    USER_AGENT = "Faraday v#{VERSION}".freeze
+    USER_AGENT = "Faraknight v#{VERSION}".freeze
 
     # @return [Hash] URI query unencoded key/value pairs.
     attr_reader :params
@@ -27,7 +27,7 @@ module Faraday
     #   Connection. This includes a default host name, scheme, port, and path.
     attr_reader :url_prefix
 
-    # @return [Faraday::RackBuilder] Builder for this Connection.
+    # @return [Faraknight::RackBuilder] Builder for this Connection.
     attr_reader :builder
 
     # @return [Hash] SSL options.
@@ -42,11 +42,11 @@ module Faraday
     # @return [Hash] proxy options.
     attr_reader :proxy
 
-    # Initializes a new Faraday::Connection.
+    # Initializes a new Faraknight::Connection.
     #
     # @param url [URI, String] URI or String base URL to use as a prefix for all
     #           requests (optional).
-    # @param options [Hash, Faraday::ConnectionOptions]
+    # @param options [Hash, Faraknight::ConnectionOptions]
     # @option options [URI, String] :url ('http:/') URI or String base URL
     # @option options [Hash<String => String>] :params URI query unencoded
     #                 key/value pairs.
@@ -145,8 +145,8 @@ module Faraday
     #     req.body = JSON.generate(query: {...})
     #   end
     #
-    # @yield [Faraday::Request] for further request customizations
-    # @return [Faraday::Response]
+    # @yield [Faraknight::Request] for further request customizations
+    # @return [Faraknight::Response]
 
     # @!method head(url = nil, params = nil, headers = nil)
     # Makes a HEAD HTTP request without a body.
@@ -160,8 +160,8 @@ module Faraday
     # @example
     #   conn.head '/items/1'
     #
-    # @yield [Faraday::Request] for further request customizations
-    # @return [Faraday::Response]
+    # @yield [Faraknight::Request] for further request customizations
+    # @return [Faraknight::Response]
 
     # @!method delete(url = nil, params = nil, headers = nil)
     # Makes a DELETE HTTP request without a body.
@@ -175,8 +175,8 @@ module Faraday
     # @example
     #   conn.delete '/items/1'
     #
-    # @yield [Faraday::Request] for further request customizations
-    # @return [Faraday::Response]
+    # @yield [Faraknight::Request] for further request customizations
+    # @return [Faraknight::Response]
 
     # @!method trace(url = nil, params = nil, headers = nil)
     # Makes a TRACE HTTP request without a body.
@@ -190,8 +190,8 @@ module Faraday
     # @example
     #   conn.connect '/items/1'
     #
-    # @yield [Faraday::Request] for further request customizations
-    # @return [Faraday::Response]
+    # @yield [Faraknight::Request] for further request customizations
+    # @return [Faraknight::Response]
 
     # @!visibility private
     METHODS_WITH_QUERY.each do |method|
@@ -217,8 +217,8 @@ module Faraday
     # @example
     #   conn.options '/items/1'
     #
-    # @yield [Faraday::Request] for further request customizations
-    # @return [Faraday::Response]
+    # @yield [Faraknight::Request] for further request customizations
+    # @return [Faraknight::Response]
     def options(*args)
       return @options if args.empty?
 
@@ -248,8 +248,8 @@ module Faraday
     #     req.body = JSON.generate(user: 'kimchy', ...)
     #   end
     #
-    # @yield [Faraday::Request] for further request customizations
-    # @return [Faraday::Response]
+    # @yield [Faraknight::Request] for further request customizations
+    # @return [Faraknight::Response]
 
     # @!method put(url = nil, body = nil, headers = nil)
     # Makes a PUT HTTP request with a body.
@@ -270,8 +270,8 @@ module Faraday
     #     req.headers['X-GitHub-Api-Version'] = '2022-11-28'
     #   end
     #
-    # @yield [Faraday::Request] for further request customizations
-    # @return [Faraday::Response]
+    # @yield [Faraknight::Request] for further request customizations
+    # @return [Faraknight::Response]
 
     # @!visibility private
     METHODS_WITH_BODY.each do |method|
@@ -300,7 +300,7 @@ module Faraday
       end
     end
 
-    # Determine if this Faraday::Connection can make parallel requests.
+    # Determine if this Faraknight::Connection can make parallel requests.
     #
     # @return [Boolean]
     def in_parallel?
@@ -317,7 +317,7 @@ module Faraday
     def in_parallel(manager = nil, &block)
       @parallel_manager = manager || default_parallel_manager do
         warn 'Warning: `in_parallel` called but no parallel-capable adapter ' \
-             'on Faraday stack'
+             'on Faraknight stack'
         warn caller[2, 10].join("\n")
         nil
       end
@@ -355,7 +355,7 @@ module Faraday
     #
     # @example
     #
-    #   conn = Faraday::Connection.new { ... }
+    #   conn = Faraknight::Connection.new { ... }
     #   conn.url_prefix = "https://httpbingo.org/api"
     #   conn.scheme      # => https
     #   conn.path_prefix # => "/api"
@@ -377,8 +377,8 @@ module Faraday
     end
 
     def set_basic_auth(user, password)
-      header = Faraday::Utils.basic_header_from(user, password)
-      headers[Faraday::Request::Authorization::KEY] = header
+      header = Faraknight::Utils.basic_header_from(user, password)
+      headers[Faraknight::Request::Authorization::KEY] = header
     end
 
     # Sets the path prefix and ensures that it always has a leading
@@ -401,7 +401,7 @@ module Faraday
     # @param extra_params [Hash]
     #
     # @example
-    #   conn = Faraday::Connection.new { ... }
+    #   conn = Faraknight::Connection.new { ... }
     #   conn.url_prefix = "https://httpbingo.org/api?token=abc"
     #   conn.scheme      # => https
     #   conn.path_prefix # => "/api"
@@ -427,7 +427,7 @@ module Faraday
       uri
     end
 
-    # Builds and runs the Faraday::Request.
+    # Builds and runs the Faraknight::Request.
     #
     # @param method [Symbol] HTTP method.
     # @param url [String, URI, nil] String or URI to access.
@@ -435,7 +435,7 @@ module Faraday
     #             a string; middlewares can be used to support more complex types.
     # @param headers [Hash, nil] unencoded HTTP header key/value pairs.
     #
-    # @return [Faraday::Response]
+    # @return [Faraknight::Response]
     def run_request(method, url, body, headers)
       unless METHODS.include?(method)
         raise ArgumentError, "unknown http method: #{method}"
@@ -456,8 +456,8 @@ module Faraday
     #
     # @param method [Symbol]
     #
-    # @yield [Faraday::Request] if block given
-    # @return [Faraday::Request]
+    # @yield [Faraknight::Request] if block given
+    # @return [Faraknight::Request]
     def build_request(method)
       Request.create(method) do |req|
         req.params  = params.dup
@@ -470,7 +470,7 @@ module Faraday
     # Build an absolute URL based on url_prefix.
     #
     # @param url [String, URI, nil]
-    # @param params [Faraday::Utils::ParamsHash] A Faraday::Utils::ParamsHash to
+    # @param params [Faraknight::Utils::ParamsHash] A Faraknight::Utils::ParamsHash to
     #               replace the query values
     #          of the resulting url (default: nil).
     #
@@ -492,11 +492,11 @@ module Faraday
       uri
     end
 
-    # Creates a duplicate of this Faraday::Connection.
+    # Creates a duplicate of this Faraknight::Connection.
     #
     # @api private
     #
-    # @return [Faraday::Connection]
+    # @return [Faraknight::Connection]
     def dup
       self.class.new(build_exclusive_url,
                      headers: headers.dup,
@@ -521,7 +521,7 @@ module Faraday
     end
 
     def proxy_from_env(url)
-      return if Faraday.ignore_env_proxy
+      return if Faraknight.ignore_env_proxy
 
       uri = nil
       case url

@@ -1,6 +1,6 @@
 # SSL Options
 
-Faraday supports a number of SSL options, which can be provided while initializing the connection.
+Faraknight supports a number of SSL options, which can be provided while initializing the connection.
 
 | Option             | Type                                   | Default | Description                                                                                                                        |
 |--------------------|----------------------------------------|---------|------------------------------------------------------------------------------------------------------------------------------------|
@@ -29,7 +29,7 @@ ssl_options = {
   min_version: :TLS1_2
 }
 
-conn = Faraday.new(ssl: options) do |faraday|
+conn = Faraknight.new(ssl: options) do |faraday|
   # ...
 end
 ```

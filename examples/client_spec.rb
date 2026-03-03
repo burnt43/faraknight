@@ -25,13 +25,13 @@ class Client
 end
 
 RSpec.describe Client do
-  let(:stubs)  { Faraday::Adapter::Test::Stubs.new }
-  let(:conn)   { Faraday.new { |b| b.adapter(:test, stubs) } }
+  let(:stubs)  { Faraknight::Adapter::Test::Stubs.new }
+  let(:conn)   { Faraknight.new { |b| b.adapter(:test, stubs) } }
   let(:client) { Client.new(conn) }
 
   it 'parses origin' do
     stubs.get('/ip') do |env|
-      # optional: you can inspect the Faraday::Env
+      # optional: you can inspect the Faraknight::Env
       expect(env.url.path).to eq('/ip')
       [
         200,
@@ -61,15 +61,15 @@ RSpec.describe Client do
 
   it 'handles exception' do
     stubs.get('/api') do
-      raise Faraday::ConnectionFailed
+      raise Faraknight::ConnectionFailed
     end
 
-    expect { client.httpbingo('api') }.to raise_error(Faraday::ConnectionFailed)
+    expect { client.httpbingo('api') }.to raise_error(Faraknight::ConnectionFailed)
     stubs.verify_stubbed_calls
   end
 
   context 'When the test stub is run in strict_mode' do
-    let(:stubs) { Faraday::Adapter::Test::Stubs.new(strict_mode: true) }
+    let(:stubs) { Faraknight::Adapter::Test::Stubs.new(strict_mode: true) }
 
     it 'verifies the all parameter values are identical' do
       stubs.get('/api?abc=123') do
@@ -87,8 +87,8 @@ RSpec.describe Client do
     end
   end
 
-  context 'When the Faraday connection is configured with FlatParamsEncoder' do
-    let(:conn) { Faraday.new(request: { params_encoder: Faraday::FlatParamsEncoder }) { |b| b.adapter(:test, stubs) } }
+  context 'When the Faraknight connection is configured with FlatParamsEncoder' do
+    let(:conn) { Faraknight.new(request: { params_encoder: Faraknight::FlatParamsEncoder }) { |b| b.adapter(:test, stubs) } }
 
     it 'handles the same multiple URL parameters' do
       stubs.get('/api?a=x&a=y&a=z') { [200, { 'Content-Type' => 'application/json' }, '{"origin": "127.0.0.1"}'] }

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# Faraday namespace.
-module Faraday
-  # Faraday error base class.
+# Faraknight namespace.
+module Faraknight
+  # Faraknight error base class.
   class Error < StandardError
     attr_reader :response, :wrapped_exception
 
@@ -31,19 +31,19 @@ module Faraday
     def response_status
       return unless @response
 
-      @response.is_a?(Faraday::Response) ? @response.status : @response[:status]
+      @response.is_a?(Faraknight::Response) ? @response.status : @response[:status]
     end
 
     def response_headers
       return unless @response
 
-      @response.is_a?(Faraday::Response) ? @response.headers : @response[:headers]
+      @response.is_a?(Faraknight::Response) ? @response.headers : @response[:headers]
     end
 
     def response_body
       return unless @response
 
-      @response.is_a?(Faraday::Response) ? @response.body : @response[:body]
+      @response.is_a?(Faraknight::Response) ? @response.body : @response[:body]
     end
 
     protected
@@ -84,7 +84,7 @@ module Faraday
         [exc, exc.message, response]
       when Hash
         [nil, build_error_message_from_hash(exc), exc]
-      when Faraday::Env
+      when Faraknight::Env
         [nil, build_error_message_from_env(exc), exc]
       else
         [nil, exc.to_s, response]
@@ -106,7 +106,7 @@ module Faraday
     end
 
     def build_error_message_from_env(env)
-      # Faraday::Env is internal - we can make reasonable assumptions about its structure
+      # Faraknight::Env is internal - we can make reasonable assumptions about its structure
       build_status_error_message(env.status, env.method, env.url)
     end
 
@@ -118,54 +118,54 @@ module Faraday
 
     def fallback_error_message(status)
       "the server responded with status #{status} - method and url are not available " \
-        'due to include_request: false on Faraday::Response::RaiseError middleware'
+        'due to include_request: false on Faraknight::Response::RaiseError middleware'
     end
   end
 
-  # Faraday client error class. Represents 4xx status responses.
+  # Faraknight client error class. Represents 4xx status responses.
   class ClientError < Error
   end
 
-  # Raised by Faraday::Response::RaiseError in case of a 400 response.
+  # Raised by Faraknight::Response::RaiseError in case of a 400 response.
   class BadRequestError < ClientError
   end
 
-  # Raised by Faraday::Response::RaiseError in case of a 401 response.
+  # Raised by Faraknight::Response::RaiseError in case of a 401 response.
   class UnauthorizedError < ClientError
   end
 
-  # Raised by Faraday::Response::RaiseError in case of a 403 response.
+  # Raised by Faraknight::Response::RaiseError in case of a 403 response.
   class ForbiddenError < ClientError
   end
 
-  # Raised by Faraday::Response::RaiseError in case of a 404 response.
+  # Raised by Faraknight::Response::RaiseError in case of a 404 response.
   class ResourceNotFound < ClientError
   end
 
-  # Raised by Faraday::Response::RaiseError in case of a 407 response.
+  # Raised by Faraknight::Response::RaiseError in case of a 407 response.
   class ProxyAuthError < ClientError
   end
 
-  # Raised by Faraday::Response::RaiseError in case of a 408 response.
+  # Raised by Faraknight::Response::RaiseError in case of a 408 response.
   class RequestTimeoutError < ClientError
   end
 
-  # Raised by Faraday::Response::RaiseError in case of a 409 response.
+  # Raised by Faraknight::Response::RaiseError in case of a 409 response.
   class ConflictError < ClientError
   end
 
-  # Raised by Faraday::Response::RaiseError in case of a 422 response.
+  # Raised by Faraknight::Response::RaiseError in case of a 422 response.
   class UnprocessableContentError < ClientError
   end
 
   # Used to provide compatibility with legacy error name.
   UnprocessableEntityError = UnprocessableContentError
 
-  # Raised by Faraday::Response::RaiseError in case of a 429 response.
+  # Raised by Faraknight::Response::RaiseError in case of a 429 response.
   class TooManyRequestsError < ClientError
   end
 
-  # Faraday server error class. Represents 5xx status responses.
+  # Faraknight server error class. Represents 5xx status responses.
   class ServerError < Error
   end
 
@@ -176,7 +176,7 @@ module Faraday
     end
   end
 
-  # Raised by Faraday::Response::RaiseError in case of a nil status in response.
+  # Raised by Faraknight::Response::RaiseError in case of a nil status in response.
   class NilStatusError < ServerError
     def initialize(exc, response = nil)
       exc_msg_and_response!(exc, response)
@@ -196,7 +196,7 @@ module Faraday
   class ParsingError < Error
   end
 
-  # Raised by Faraday::Middleware and subclasses when invalid default_options are used
+  # Raised by Faraknight::Middleware and subclasses when invalid default_options are used
   class InitializationError < Error
   end
 end

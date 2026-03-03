@@ -19,36 +19,36 @@ require 'faraday/adapter'
 require 'faraday/request'
 require 'faraday/response'
 require 'faraday/net_http'
-# This is the main namespace for Faraday.
+# This is the main namespace for Faraknight.
 #
 # It provides methods to create {Connection} objects, and HTTP-related
 # methods to use directly.
 #
 # @example Helpful class methods for easy usage
-#   Faraday.get "http://faraday.com"
+#   Faraknight.get "http://faraday.com"
 #
 # @example Helpful class method `.new` to create {Connection} objects.
-#   conn = Faraday.new "http://faraday.com"
+#   conn = Faraknight.new "http://faraday.com"
 #   conn.get '/'
 #
-module Faraday
+module Faraknight
   CONTENT_TYPE = 'Content-Type'
 
   class << self
-    # The root path that Faraday is being loaded from.
+    # The root path that Faraknight is being loaded from.
     #
     # This is the root from where the libraries are auto-loaded.
     #
     # @return [String]
     attr_accessor :root_path
 
-    # Gets or sets the path that the Faraday libs are loaded from.
+    # Gets or sets the path that the Faraknight libs are loaded from.
     # @return [String]
     attr_accessor :lib_path
 
     # @overload default_adapter
     #   Gets the Symbol key identifying a default Adapter to use
-    #   for the default {Faraday::Connection}. Defaults to `:net_http`.
+    #   for the default {Faraknight::Connection}. Defaults to `:net_http`.
     #   @return [Symbol] the default adapter
     # @overload default_adapter=(adapter)
     #   Updates default adapter while resetting {.default_connection}.
@@ -62,7 +62,7 @@ module Faraday
     # Documented below, see default_connection
     attr_writer :default_connection
 
-    # Tells Faraday to ignore the environment proxy (http_proxy).
+    # Tells Faraknight to ignore the environment proxy (http_proxy).
     # Defaults to `false`.
     # @return [Boolean]
     attr_accessor :ignore_env_proxy
@@ -80,23 +80,23 @@ module Faraday
     # @option options [Hash] :request Hash of request options.
     # @option options [Hash] :ssl Hash of SSL options.
     # @option options [Hash] :proxy Hash of Proxy options.
-    # @return [Faraday::Connection]
+    # @return [Faraknight::Connection]
     #
     # @example With an URL argument
-    #   Faraday.new 'http://faraday.com'
-    #   # => Faraday::Connection to http://faraday.com
+    #   Faraknight.new 'http://faraday.com'
+    #   # => Faraknight::Connection to http://faraday.com
     #
     # @example With an URL argument and an options hash
-    #   Faraday.new 'http://faraday.com', params: { page: 1 }
-    #   # => Faraday::Connection to http://faraday.com?page=1
+    #   Faraknight.new 'http://faraday.com', params: { page: 1 }
+    #   # => Faraknight::Connection to http://faraday.com?page=1
     #
     # @example With everything in an options hash
-    #   Faraday.new url: 'http://faraday.com',
+    #   Faraknight.new url: 'http://faraday.com',
     #               params: { page: 1 }
-    #   # => Faraday::Connection to http://faraday.com?page=1
+    #   # => Faraknight::Connection to http://faraday.com?page=1
     def new(url = nil, options = {}, &block)
       options = Utils.deep_merge(default_connection_options, options)
-      Faraday::Connection.new(url, options, &block)
+      Faraknight::Connection.new(url, options, &block)
     end
 
     # Documented elsewhere, see default_adapter reader
@@ -111,27 +111,27 @@ module Faraday
 
     # @overload default_connection
     #   Gets the default connection used for simple scripts.
-    #   @return [Faraday::Connection] a connection configured with
+    #   @return [Faraknight::Connection] a connection configured with
     #   the default_adapter.
     # @overload default_connection=(connection)
-    #   @param connection [Faraday::Connection]
-    #   Sets the default {Faraday::Connection} for simple scripts that
-    #   access the Faraday constant directly, such as
-    #   <code>Faraday.get "https://faraday.com"</code>.
+    #   @param connection [Faraknight::Connection]
+    #   Sets the default {Faraknight::Connection} for simple scripts that
+    #   access the Faraknight constant directly, such as
+    #   <code>Faraknight.get "https://faraday.com"</code>.
     def default_connection
       @default_connection ||= Connection.new(default_connection_options)
     end
 
-    # Gets the default connection options used when calling {Faraday#new}.
+    # Gets the default connection options used when calling {Faraknight#new}.
     #
-    # @return [Faraday::ConnectionOptions]
+    # @return [Faraknight::ConnectionOptions]
     def default_connection_options
       @default_connection_options ||= ConnectionOptions.new
     end
 
-    # Sets the default options used when calling {Faraday#new}.
+    # Sets the default options used when calling {Faraknight#new}.
     #
-    # @param options [Hash, Faraday::ConnectionOptions]
+    # @param options [Hash, Faraknight::ConnectionOptions]
     def default_connection_options=(options)
       @default_connection = nil
       @default_connection_options = ConnectionOptions.from(options)
@@ -139,7 +139,7 @@ module Faraday
 
     private
 
-    # Internal: Proxies method calls on the Faraday constant to
+    # Internal: Proxies method calls on the Faraknight constant to
     # .default_connection.
     def method_missing(name, *args, &block)
       if default_connection.respond_to?(name)
