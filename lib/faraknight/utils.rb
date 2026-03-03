@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require 'uri'
-require 'faraday/utils/headers'
-require 'faraday/utils/params_hash'
+require 'faraknight/utils/headers'
+require 'faraknight/utils/params_hash'
 
 module Faraknight
   # Utils contains various static helper methods.

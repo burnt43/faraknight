@@ -212,8 +212,8 @@ module Faraknight
   end
 end
 
-require 'faraday/options/request_options'
-require 'faraday/options/ssl_options'
-require 'faraday/options/proxy_options'
-require 'faraday/options/connection_options'
-require 'faraday/options/env'
+require 'faraknight/options/request_options'
+require 'faraknight/options/ssl_options'
+require 'faraknight/options/proxy_options'
+require 'faraknight/options/connection_options'
+require 'faraknight/options/env'

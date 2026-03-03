@@ -133,7 +133,7 @@ module Faraknight
   end
 end
 
-require 'faraday/request/authorization'
-require 'faraday/request/instrumentation'
-require 'faraday/request/json'
-require 'faraday/request/url_encoded'
+require 'faraknight/request/authorization'
+require 'faraknight/request/instrumentation'
+require 'faraknight/request/json'
+require 'faraknight/request/url_encoded'

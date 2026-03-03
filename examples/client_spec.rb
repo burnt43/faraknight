@@ -3,7 +3,7 @@
 # Requires Ruby with rspec and faraday gems.
 # rspec client_spec.rb
 
-require 'faraday'
+require 'faraknight'
 require 'json'
 
 # Example API client

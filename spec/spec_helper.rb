@@ -29,7 +29,7 @@ SimpleCov.start do
   minimum_coverage_by_file 26
 end
 
-require 'faraday'
+require 'faraknight'
 require 'pry'
 
 # Ensure all /lib files are loaded

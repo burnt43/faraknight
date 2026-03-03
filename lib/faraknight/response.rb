@@ -90,6 +90,6 @@ module Faraknight
   end
 end
 
-require 'faraday/response/json'
-require 'faraday/response/logger'
-require 'faraday/response/raise_error'
+require 'faraknight/response/json'
+require 'faraknight/response/logger'
+require 'faraknight/response/raise_error'

@@ -99,4 +99,4 @@ module Faraknight
   end
 end
 
-require 'faraday/adapter/test'
+require 'faraknight/adapter/test'

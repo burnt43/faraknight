@@ -5,7 +5,7 @@ This can be achieved using the `#in_parallel` method on the connection object.
 
 ```ruby
 # Install the Typhoeus adapter with `gem install faraday-typhoeus` first.
-require 'faraday/typhoeus'
+require 'faraknight/typhoeus'
 
 conn = Faraknight.new('http://httpbingo.org') do |faraday|
   faraday.adapter :typhoeus
@@ -31,7 +31,7 @@ Instead, you only need to wrap your Faraknight code into an Async block:
 
 ```ruby
 # Install the Async adapter with `gem install async-http-faraday` first.
-require 'async/http/faraday'
+require 'async/http/faraknight'
 
 conn = Faraknight.new('http://httpbingo.org') do |faraday|
   faraday.adapter :async_http

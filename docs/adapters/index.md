@@ -10,8 +10,8 @@ For example, consider using `httpclient` as an adapter. Note that [faraday-httpc
 If you want to configure it globally, do the following:
 
 ```ruby
-require 'faraday'
-require 'faraday/httpclient'
+require 'faraknight'
+require 'faraknight/httpclient'
 
 Faraknight.default_adapter = :httpclient
 ```
@@ -19,8 +19,8 @@ Faraknight.default_adapter = :httpclient
 If you want to configure it per Faraknight Connection, do the following:
 
 ```ruby
-require 'faraday'
-require 'faraday/httpclient'
+require 'faraknight'
+require 'faraknight/httpclient'
 
 conn = Faraknight.new do |f|
   f.adapter :httpclient

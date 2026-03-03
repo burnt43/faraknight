@@ -217,7 +217,7 @@ Automatically follows GET/HEAD redirects by default.
 Use the `follow_redirects` middleware (not included by default):
 
 ```ruby
-require "faraday/follow_redirects"
+require "faraknight/follow_redirects"
 
 conn = Faraknight.new(url: "https://httpbingo.org") do |f|
   f.response :follow_redirects

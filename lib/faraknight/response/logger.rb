@@ -2,7 +2,7 @@
 
 require 'forwardable'
 require 'logger'
-require 'faraday/logging/formatter'
+require 'faraknight/logging/formatter'
 
 module Faraknight
   class Response

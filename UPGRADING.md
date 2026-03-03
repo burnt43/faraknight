@@ -44,8 +44,8 @@ We did our best to make this transition as painless as possible for you, so here
   gem 'faraday-net_http_persistent'
 
   # Code
-  require 'faraday'
-  require 'faraday/net_http_persistent'
+  require 'faraknight'
+  require 'faraknight/net_http_persistent'
   ```
 
 ### Faraknight Middleware Deprecation
@@ -80,8 +80,8 @@ gem 'faraday-multipart'
 gem 'faraday-retry'
 
 # Connection initializer
-require 'faraday/retry'
-require 'faraday/multipart'
+require 'faraknight/retry'
+require 'faraknight/multipart'
 
 conn = Faraknight.new(url) do |f|
   f.request :multipart

@@ -17,7 +17,7 @@ To use these great features, create a `Faraknight::Connection` with `Faraknight.
 and add the correct middleware in a block. For example:
 
 ```ruby
-require 'faraday'
+require 'faraknight'
 
 conn = Faraknight.new do |f|
   f.request :json # encode req bodies as JSON

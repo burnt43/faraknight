@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'faraday/adapter_registry'
+require 'faraknight/adapter_registry'
 
 module Faraknight
   # A Builder that processes requests into responses by passing through an inner

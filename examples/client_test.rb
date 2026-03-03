@@ -3,7 +3,7 @@
 # Requires Ruby with test-unit and faraday gems.
 # ruby client_test.rb
 
-require 'faraday'
+require 'faraknight'
 require 'json'
 require 'test/unit'
 
