@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.homepage = 'https://lostisland.github.io/faraday'
   spec.licenses = ['MIT']
 
-  spec.required_ruby_version = '>= 3.0'
+  spec.required_ruby_version = '>= 2.3.0'
 
   # faraday-net_http is the "default adapter", but being a Faraknight dependency it can't
   # control which version of faraday it will be pulled from.
