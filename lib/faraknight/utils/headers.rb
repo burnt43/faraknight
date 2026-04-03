@@ -62,10 +62,10 @@ module Faraknight
         super
       end
 
-      def fetch(key, ...)
+      def fetch(key, *args, **kw_args, &block)
         key = KeyMap[key]
         key = @names.fetch(key.downcase, key)
-        super
+        super(*args, **kw_args, &block)
       end
 
       def delete(key)

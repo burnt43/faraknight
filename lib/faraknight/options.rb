@@ -174,7 +174,7 @@ module Faraknight
 
       memoized_attributes[key.to_sym] = block
       class_eval <<-RUBY, __FILE__, __LINE__ + 1
-        remove_method(key) if method_defined?(key, false)
+        remove_method(key) if instance_methods(false).include?(key.to_sym)
         def #{key}() self[:#{key}]; end
       RUBY
     end

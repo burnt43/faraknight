@@ -94,22 +94,22 @@ module Faraknight
       @handlers.frozen?
     end
 
-    def use(klass, ...)
+    def use(klass, *args, **kw_args, &block)
       if klass.is_a? Symbol
-        use_symbol(Faraknight::Middleware, klass, ...)
+        use_symbol(Faraknight::Middleware, klass, *args, **kw_args, &block)
       else
         raise_if_locked
         raise_if_adapter(klass)
-        @handlers << self.class::Handler.new(klass, ...)
+        @handlers << self.class::Handler.new(klass, *args, **kw_args, &block)
       end
     end
 
-    def request(key, ...)
-      use_symbol(Faraknight::Request, key, ...)
+    def request(key, *args, **kw_args, &block)
+      use_symbol(Faraknight::Request, key, *args, **kw_args, &block)
     end
 
-    def response(...)
-      use_symbol(Faraknight::Response, ...)
+    def response(*args, **kw_args, &block)
+      use_symbol(Faraknight::Response, *args, **kw_args, &block)
     end
 
     def adapter(klass = NO_ARGUMENT, *args, **kwargs, &block)
@@ -121,25 +121,25 @@ module Faraknight
 
     ## methods to push onto the various positions in the stack:
 
-    def insert(index, ...)
+    def insert(index, *args, **kw_args, &block)
       raise_if_locked
       index = assert_index(index)
-      handler = self.class::Handler.new(...)
+      handler = self.class::Handler.new(*args, **kw_args, &block)
       @handlers.insert(index, handler)
     end
 
     alias insert_before insert
 
-    def insert_after(index, ...)
+    def insert_after(index, *args, **kw_args, &block)
       index = assert_index(index)
-      insert(index + 1, ...)
+      insert(index + 1, *args, **kw_args, &block)
     end
 
-    def swap(index, ...)
+    def swap(index, *args, **kw_args, &block)
       raise_if_locked
       index = assert_index(index)
       @handlers.delete_at(index)
-      insert(index, ...)
+      insert(index, *args, **kw_args, &block)
     end
 
     def delete(handler)
@@ -234,8 +234,8 @@ module Faraknight
       !@adapter.nil?
     end
 
-    def use_symbol(mod, key, ...)
-      use(mod.lookup_middleware(key), ...)
+    def use_symbol(mod, key, *args, **kw_args, &block)
+      use(mod.lookup_middleware(key), *args, **kw_args, &block)
     end
 
     def assert_index(index)
